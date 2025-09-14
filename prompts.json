@@ -1,0 +1,20 @@
+﻿[
+  {
+    "id": "p1",
+    "title": "Sunlit Portrait",
+    "prompt": "4k HD realistic portrait of an Indian man, golden hour lighting, cinematic, soft bokeh",
+    "image": "images/example1.jpg"
+  },
+  {
+    "id": "p2",
+    "title": "Red Saree",
+    "prompt": "4k HD portrait of an Indian woman in a red saree, warm tones, soft light, traditional jewelry",
+    "image": "images/example2.jpg"
+  },
+  {
+    "id": "p3",
+    "title": "Futuristic Cityscape",
+    "prompt": "Gemini prompt: ultra-realistic futuristic cityscape at sunset, neon lights, cinematic look",
+    "image": "images/example3.jpg"
+  }
+]
