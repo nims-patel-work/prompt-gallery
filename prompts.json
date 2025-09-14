@@ -1,20 +1,20 @@
-﻿[
+[
   {
     "id": "p1",
-    "title": "Sunlit Portrait",
-    "prompt": "4k HD realistic portrait of an Indian man, golden hour lighting, cinematic, soft bokeh",
-    "image": "images/example1.jpg"
+    "title": "Black Saree Portrait",
+    "prompt": "Turn this photo into 'Create a retro, vintage-inspired image grainy yet bright - based on the reference picture. The girl should be draped in a perfect black, Pinterest-style aesthetic retro saree. The vibe must capture the essence of a 90s movie brown-longhaired baddie, with wavy curls and a small flower tucked visibly into her hair, enhanced by a windy, romantic atmosphere. She stands against a solid wall, where deep shadows and dramatic contrasts add mystery and artistry to the scene, creating a moody yet enchanting cinematic effect.'",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/1.jpeg"
   },
   {
     "id": "p2",
-    "title": "Red Saree",
-    "prompt": "4k HD portrait of an Indian woman in a red saree, warm tones, soft light, traditional jewelry",
-    "image": "images/example2.jpg"
+    "title": "Red Saree Portrait",
+    "prompt": "Turn this photo into 'Create a retro, vintage-inspired image grainy yet bright - based on the reference picture. The girl should be draped in a perfect red, Pinterest-style aesthetic retro saree. The vibe must capture the essence of a 90s movie brown-haired baddie, with wavy curls and a small flower tucked visibly into her hair, enhanced by a windy, romantic atmosphere. She stands against a solid wall, where deep shadows and dramatic contrasts add mystery and artistry to the scene, creating a moody yet enchanting cinematic effect.'",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/2.jpeg"
   },
   {
     "id": "p3",
-    "title": "Futuristic Cityscape",
-    "prompt": "Gemini prompt: ultra-realistic futuristic cityscape at sunset, neon lights, cinematic look",
-    "image": "images/example3.jpg"
+    "title": "Lavender Saree Portrait",
+    "prompt": "Create a retro, vintage-inspired image - grainy yet bright - based on the reference picture. The girl should be draped in a perfect lavender chiffon, Pinterest-style aesthetic saree. The vibe must capture the essence of a 90s movie dark-brown-longhaired baddie, with silky hair and a small flower tucked visibly into her hair, enhanced by a windy, romantic atmosphere. She is standing against an old wooden door, where deep shadows and dramatic contrasts add mystery and artistry to the scene, creating a moody yet enchanting cinematic effect. Her pose should suggest that she is adjusting her hair.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/3.jpeg"
   }
 ]
