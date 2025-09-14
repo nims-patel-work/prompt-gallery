@@ -1,105 +1,121 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Prompt Gallery — Gemini</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#f7fbfd;
-      --card:#ffffff;
-      --muted:#6b7280;
-      --accent:#06b6d4;
-      --accent-dark:#089aa9;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:"Inter",system-ui,Arial;color:#0f172a;background:linear-gradient(180deg,#fbfdfe,#f0f6f9)}
-    .wrap{max-width:1200px;margin:40px auto;padding:20px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-    .title-wrap{display:flex;flex-direction:column}
-    h1{margin:0;font-size:24px;font-weight:700}
-    .controls{display:flex;gap:12px;align-items:center}
-    .search{
-      width:360px;max-width:48vw;padding:10px 14px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);
-      background:rgba(255,255,255,0.95);font-size:14px;outline:none;box-shadow:0 6px 18px rgba(11,22,38,0.03);
-      transition:transform .12s,box-shadow .12s;
-    }
-    .search:focus{transform:translateY(-2px);box-shadow:0 12px 30px rgba(11,22,38,0.06)}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-top:18px;align-items:stretch}
-    .grid.fade-in{animation:fadeUp .45s ease forwards;opacity:0}
-    @keyframes fadeUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
-    .card{
-      background:var(--card);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;
-      box-shadow:0 10px 28px rgba(11,22,38,0.05);transition:transform .16s cubic-bezier(.2,.9,.2,1),box-shadow .16s;
-      min-height:380px;overflow:hidden;
-    }
-    .card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 18px 48px rgba(11,22,38,0.09)}
-    .thumb{width:100%;height:260px;border-radius:10px;object-fit:cover;background:linear-gradient(180deg,#eef6fb,#f7fbfd);border:1px solid rgba(6,22,34,0.03)}
-    .meta{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-    .title{font-weight:700;font-size:15px;margin-top:6px}
-    .prompt{font-size:14px;color:var(--muted);line-height:1.5;white-space:pre-wrap;overflow:hidden;flex:1}
-    .actions{display:flex;align-items:center;gap:10px;margin-top:6px}
-    .copyBtn{
-      height:40px;padding:8px 14px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-dark));
-      color:white;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 8px 22px rgba(6,22,34,0.07);
-      transition:transform .12s ease,box-shadow .12s ease;
-    }
-    .copyBtn:active{transform:translateY(1px) scale(.998)}
-    .copyBtn.copied{background:linear-gradient(180deg,#10b981,#059669)}
-    .skeleton{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
-    .sk-card{background:linear-gradient(90deg,#fbfdfe,#f6f9fb);height:380px;border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(11,22,38,0.04);position:relative;overflow:hidden}
-    .sk-rect{height:260px;border-radius:10px;background:linear-gradient(90deg,#eef3f7,#f6fbfe);margin-bottom:12px}
-    .sk-line{height:12px;border-radius:8px;background:linear-gradient(90deg,#eef3f7,#f6fbfe);margin-bottom:8px;width:80%}
-    .sk-line.short{width:40%}
-    .pulse{animation:pulse 1.2s infinite linear}
-    @keyframes pulse{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
-    footer{margin-top:28px;color:var(--muted);text-align:center;font-size:13px}
-    @media(max-width:740px){.search{width:100%}.grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Prompt Gallery — Gemini</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7fbfd;
+    --card:#ffffff;
+    --muted:#6b7280;
+    --accent:#06b6d4;
+    --accent-dark:#089aa9;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:"Inter",system-ui,Arial;color:#0f172a;background:linear-gradient(180deg,#fbfdfe,#f0f6f9)}
+  .wrap{max-width:1200px;margin:36px auto;padding:20px}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  h1{margin:0;font-size:24px;font-weight:700}
+  .controls{display:flex;gap:12px;align-items:center}
+  .search{
+    width:360px;max-width:48vw;padding:10px 14px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);
+    background:rgba(255,255,255,0.95);font-size:14px;outline:none;box-shadow:0 6px 18px rgba(11,22,38,0.03);
+  }
+
+  /* grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-top:18px;align-items:stretch}
+  .grid.fade-in{animation:fadeUp .45s ease forwards;opacity:0}
+  @keyframes fadeUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+  /* card */
+  .card{
+    background:var(--card);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;
+    box-shadow:0 10px 28px rgba(11,22,38,0.05);transition:transform .16s cubic-bezier(.2,.9,.2,1),box-shadow .16s;min-height:360px;position:relative;overflow:hidden;
+  }
+  .card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 22px 60px rgba(11,22,38,0.12);z-index:5}
+
+  /* image box: keep top visible by default; on hover show full image */
+  .imgwrap{width:100%;height:260px;border-radius:10px;overflow:hidden;border:1px solid rgba(6,22,34,0.03);background:linear-gradient(180deg,#eef6fb,#f7fbfd);display:block;position:relative;transition:height .28s ease}
+  .thumb{
+    display:block;width:100%;height:100%;object-fit:cover;object-position:top center;transition:object-position .28s ease, transform .28s ease, height .28s ease;
+  }
+
+  /* On hover: expand image container and show full image (contain) */
+  .card:hover .imgwrap{height:380px}
+  .card:hover .thumb{object-fit:contain;object-position:center center;transform:translateY(0) scale(1)}
+
+  /* title & prompt (prompt clamped to 2 lines) */
+  .title{font-weight:700;font-size:15px;margin-top:6px}
+  .prompt{
+    font-size:14px;color:var(--muted);line-height:1.4;white-space:normal;overflow:hidden;
+    display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
+  }
+
+  /* actions */
+  .actions{display:flex;align-items:center;gap:10px;margin-top:6px}
+  .copyBtn{
+    height:40px;padding:8px 14px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+    color:white;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 8px 22px rgba(6,22,34,0.07);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .copyBtn:active{transform:translateY(1px) scale(.998)}
+  .copyBtn.copied{background:linear-gradient(180deg,#10b981,#059669)}
+
+  /* skeleton while loading */
+  .skeleton{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+  .sk-card{background:linear-gradient(90deg,#fbfdfe,#f6f9fb);height:360px;border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(11,22,38,0.04);position:relative;overflow:hidden}
+  .sk-rect{height:260px;border-radius:10px;background:linear-gradient(90deg,#eef3f7,#f6fbfe);margin-bottom:12px}
+  .sk-line{height:12px;border-radius:8px;background:linear-gradient(90deg,#eef3f7,#f6fbfe);margin-bottom:8px;width:80%}
+  .sk-line.short{width:40%}
+  .pulse{animation:pulse 1.2s infinite linear}
+  @keyframes pulse{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
+
+  footer{margin-top:28px;color:var(--muted);text-align:center;font-size:13px}
+
+  /* responsive */
+  @media(max-width:900px){ .search{width:44vw} }
+  @media(max-width:740px){
+    .search{width:100%}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+    .imgwrap{height:200px}
+    .card{min-height:320px}
+    .card:hover .imgwrap{height:260px}
+  }
+</style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div class="title-wrap">
-        <h1>Prompt Gallery — Gemini</h1>
-      </div>
+      <h1>Prompt Gallery — Gemini</h1>
       <div class="controls">
         <input id="search" class="search" placeholder="Search prompts..." aria-label="Search prompts" />
       </div>
     </header>
 
+    <!-- skeleton loader -->
     <div id="loader" class="skeleton" aria-hidden="false">
-      <div class="sk-card pulse">
-        <div class="sk-rect"></div>
-        <div class="sk-line"></div>
-        <div class="sk-line short"></div>
-      </div>
-      <div class="sk-card pulse">
-        <div class="sk-rect"></div>
-        <div class="sk-line"></div>
-        <div class="sk-line"></div>
-      </div>
-      <div class="sk-card pulse">
-        <div class="sk-rect"></div>
-        <div class="sk-line"></div>
-        <div class="sk-line short"></div>
-      </div>
+      <div class="sk-card pulse"><div class="sk-rect"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+      <div class="sk-card pulse"><div class="sk-rect"></div><div class="sk-line"></div><div class="sk-line"></div></div>
+      <div class="sk-card pulse"><div class="sk-rect"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
     </div>
 
-    <div id="grid" class="grid" aria-live="polite" style="display:none"></div>
+    <div id="grid" class="grid" aria-live="polite" style="display:none;"></div>
 
     <footer id="footer">Attach your closer face photo, then copy the prompt if you like, and then submit.</footer>
   </div>
 
 <script>
-/* CONFIG: keep prompts.json in repo root */
+/* CONFIG */
 const PROMPTS_JSON_URL = 'prompts.json';
 
-/* fallback sample (only if JSON missing) */
+/* fallback sample */
 const sampleData = [
-  { id:'p1', title:'Sunlit Portrait', prompt:'4k HD realistic portrait of an Indian man, golden hour lighting, cinematic, soft bokeh', image:'https://images.unsplash.com/photo-1517466787928-0f1e9e5f1f51?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=1' },
-  { id:'p2', title:'Red Saree', prompt:'4k HD portrait of an Indian woman in a red saree, warm tones, soft light, traditional jewelry', image:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=1' }
+  { id:'p1', title:'Black Saree Portrait', prompt:"Turn this photo into 'Create a retro, vintage-inspired image grainy yet bright - based on the reference picture. The girl should be draped in a perfect black, Pinterest-style aesthetic retro saree...'", image:'images/1.jpeg' },
+  { id:'p2', title:'Red Saree Portrait', prompt:"Turn this photo into 'Create a retro, vintage-inspired image grainy yet bright - based on the reference picture. The girl should be draped in a perfect red...'", image:'images/2.jpeg' },
+  { id:'p3', title:'Lavender Saree Portrait', prompt:"Create a retro, vintage-inspired image - grainy yet bright - based on the reference picture. The girl should be draped in a perfect lavender chiffon...", image:'images/3.jpeg' }
 ];
 
 const grid = document.getElementById('grid');
@@ -109,12 +125,7 @@ const search = document.getElementById('search');
 let DATA = [];
 
 function el(tag, cls){ const e = document.createElement(tag); if(cls) e.className = cls; return e; }
-
-function flashButton(btn){
-  btn.classList.add('copied');
-  btn.textContent = 'Copied ✓';
-  setTimeout(()=>{ btn.classList.remove('copied'); btn.textContent = 'Copy' }, 1100);
-}
+function flashButton(btn){ btn.classList.add('copied'); btn.textContent = 'Copied ✓'; setTimeout(()=>{ btn.classList.remove('copied'); btn.textContent = 'Copy' }, 1100); }
 
 function render(items){
   loader.style.display = 'none';
@@ -128,8 +139,10 @@ function render(items){
   items.forEach(it=>{
     const card = el('div','card');
 
+    const imgwrap = el('div','imgwrap');
     const img = el('img','thumb'); img.alt = it.title || 'image'; img.src = it.image || '';
     img.onerror = ()=>{ img.src = 'https://via.placeholder.com/1200x800?text=No+Image' };
+    imgwrap.appendChild(img);
 
     const meta = el('div','meta');
     const title = el('div','title'); title.textContent = it.title || 'Untitled';
@@ -152,7 +165,7 @@ function render(items){
     left.appendChild(copyBtn);
     actions.appendChild(left);
 
-    card.appendChild(img);
+    card.appendChild(imgwrap);
     card.appendChild(meta);
     card.appendChild(prompt);
     card.appendChild(actions);
@@ -160,12 +173,14 @@ function render(items){
   });
 }
 
+/* filter */
 function filtered(){
   const q = (search.value || '').trim().toLowerCase();
   if(!q) return DATA;
   return DATA.filter(it => (((it.title||'') + ' ' + (it.prompt||'')).toLowerCase().includes(q)));
 }
 
+/* load data */
 async function loadData(){
   try{
     const res = await fetch(PROMPTS_JSON_URL, {cache:'no-store'});
@@ -181,7 +196,10 @@ async function loadData(){
   render(DATA);
 }
 
+/* events */
 search.addEventListener('input', ()=> render(filtered()));
+
+/* start */
 loadData();
 </script>
 </body>
