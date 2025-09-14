@@ -1,184 +1,121 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Prompt Gallery — Gemini Prompts</title>
+  <title>Prompt Gallery — Gemini</title>
   <style>
-    :root{--bg:#f8fafc;--card:#ffffff;--muted:#64748b;--accent:#06b6d4}
+    :root{--bg:#f8fafc;--card:#ffffff;--accent:#06b6d4}
     html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial;color:#0b2540;background:var(--bg)}
     .wrap{max-width:1100px;margin:28px auto;padding:18px}
     header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
     h1{margin:0;font-size:22px}
-    .lead{color:var(--muted);font-size:13px;margin-top:6px}
     .controls{display:flex;gap:8px;align-items:center}
     input.search{padding:8px 10px;border-radius:10px;border:1px solid #e6eef6;min-width:220px}
     button.btn{background:var(--accent);border:none;padding:8px 12px;border-radius:10px;color:#022;cursor:pointer;font-weight:600}
-    .small{background:transparent;border:1px solid #e6eef6;padding:6px 10px;border-radius:8px;cursor:pointer;color:var(--muted)}
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:18px}
     .card{background:var(--card);border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.06);padding:12px;display:flex;flex-direction:column;gap:8px}
     .thumb{width:100%;height:160px;object-fit:cover;border-radius:8px;background:#f1f5f9}
     .title{font-weight:700;font-size:14px}
-    .prompt{font-size:13px;color:var(--muted);min-height:56px;white-space:pre-wrap;overflow:hidden}
-    .actions{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:6px}
-    .copyBtn{background:#0ea5a4;border:none;padding:8px 10px;border-radius:8px;color:white;cursor:pointer}
-    footer{margin-top:20px;color:var(--muted);font-size:13px}
+    .prompt{font-size:13px;color:#334155;min-height:56px;white-space:pre-wrap;overflow:hidden}
+    .copyBtn{background:var(--accent);border:none;padding:8px 10px;border-radius:8px;color:white;cursor:pointer;font-size:13px;font-weight:600}
+    footer{margin-top:20px;color:#64748b;font-size:13px}
     @media(max-width:720px){.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div>
-        <h1>Prompt Gallery — Gemini</h1>
-        <div class="lead">Image • Title • Gemini prompt — click “Copy” to use the prompt instantly.</div>
-      </div>
+      <h1>Prompt Gallery — Gemini</h1>
       <div class="controls">
-        <input id="search" class="search" placeholder="Search prompts or tags..." />
+        <input id="search" class="search" placeholder="Search prompts..." />
         <button id="copyAll" class="btn">Copy all prompts</button>
-        <button id="downloadJson" class="small">Export JSON</button>
       </div>
     </header>
 
-
     <div id="grid" class="grid" aria-live="polite"></div>
 
-
     <footer>
-      Tip: To update content without editing this file, add a <code>prompts.json</code> in the same repo root.
+      Tip: To update content, add a <code>prompts.json</code> in the repo root.
     </footer>
   </div>
 
-
   <script>
-    // ===== CONFIG =====
-    // If you want live/dynamic JSON, upload a prompts.json file to repo root.
-    const PROMPTS_JSON_URL = 'prompts.json'; // relative: repo root
-    // ===================
+    const PROMPTS_JSON_URL = 'prompts.json'; 
 
-
-    // fallback sample data (used if prompts.json not found)
     const sampleData = [
       {
         "id": "p1",
         "title": "Sunlit Portrait",
         "prompt": "4k HD realistic portrait of an Indian man, golden hour lighting, cinematic, sharp details, soft bokeh",
-        "image": "images/example1.jpg",
-        "tags": ["portrait","cinematic"]
+        "image": "images/example1.jpg"
       },
       {
         "id": "p2",
         "title": "Red Saree",
         "prompt": "4k HD portrait of an Indian woman in a red saree, warm tones, soft light, traditional jewelry",
-        "image": "images/example2.jpg",
-        "tags": ["portrait","fashion"]
+        "image": "images/example2.jpg"
       }
     ];
 
-
-    // DOM refs
     const grid = document.getElementById('grid');
     const search = document.getElementById('search');
     const copyAllBtn = document.getElementById('copyAll');
-    const downloadJsonBtn = document.getElementById('downloadJson');
-
-
     let DATA = [];
 
-
-    // load prompts.json if exists, else fallback to sampleData
     async function loadData(){
       try{
         const r = await fetch(PROMPTS_JSON_URL, {cache:'no-store'});
-        if(!r.ok) throw new Error('No remote JSON (status ' + r.status + ')');
-        const txt = await r.text();
-        const j = JSON.parse(txt);
-        if(!Array.isArray(j)) throw new Error('Remote JSON is not an array');
+        if(!r.ok) throw new Error('no prompts.json');
+        const j = await r.json();
+        if(!Array.isArray(j)) throw new Error('not array');
         DATA = j;
       }catch(err){
-        console.warn('Falling back to sampleData:', err.message);
         DATA = sampleData.slice();
       }
       render(DATA);
     }
 
-
-    // render cards
     function render(items){
       grid.innerHTML = '';
       if(!items.length){ grid.innerHTML = '<div style="color:#64748b">No prompts found.</div>'; return; }
-      items.forEach((it, idx) => {
+      items.forEach(it => {
         const card = document.createElement('div'); card.className = 'card';
-        const img = document.createElement('img'); img.className = 'thumb'; img.alt = it.title || 'image'; img.src = it.image || '';
-        img.onerror = ()=>{ img.src = 'https://via.placeholder.com/800x600?text=No+Image' };
-
-
-        const title = document.createElement('div'); title.className = 'title'; title.textContent = it.title || 'Untitled';
-        const prompt = document.createElement('div'); prompt.className = 'prompt'; prompt.textContent = it.prompt || '';
-
-
-        const actions = document.createElement('div'); actions.className = 'actions';
-        const left = document.createElement('div');
-        const copyBtn = document.createElement('button'); copyBtn.className = 'copyBtn'; copyBtn.textContent = 'Copy';
+        const img = document.createElement('img'); img.className = 'thumb'; img.alt = it.title; img.src = it.image;
+        img.onerror = ()=>{ img.src='https://via.placeholder.com/600x400?text=No+Image' };
+        const title = document.createElement('div'); title.className='title'; title.textContent = it.title;
+        const prompt = document.createElement('div'); prompt.className='prompt'; prompt.textContent = it.prompt;
+        const copyBtn = document.createElement('button'); copyBtn.className='copyBtn'; copyBtn.textContent='Copy';
         copyBtn.addEventListener('click', ()=> {
-          navigator.clipboard.writeText(it.prompt || '').then(()=> {
-            copyBtn.textContent = 'Copied ✓';
-            setTimeout(()=> copyBtn.textContent = 'Copy', 900);
+          navigator.clipboard.writeText(it.prompt).then(()=> {
+            copyBtn.textContent='Copied ✓';
+            setTimeout(()=> copyBtn.textContent='Copy', 1000);
           });
         });
-        const dlImg = document.createElement('button'); dlImg.className = 'small'; dlImg.textContent = 'Download';
-        dlImg.addEventListener('click', ()=> { const a=document.createElement('a'); a.href = img.src; a.download = (it.id || 'image'); a.click(); });
-
-
-        left.appendChild(copyBtn);
-        left.appendChild(dlImg);
-
-
-        const tagDiv = document.createElement('div'); tagDiv.style.fontSize='12px'; tagDiv.style.color='var(--muted)'; tagDiv.textContent = (it.tags||[]).join(', ');
-
-
-        actions.appendChild(left);
-        actions.appendChild(tagDiv);
-
-
         card.appendChild(img);
         card.appendChild(title);
         card.appendChild(prompt);
-        card.appendChild(actions);
-
-
+        card.appendChild(copyBtn);
         grid.appendChild(card);
       });
     }
 
-
-    // search/filter
     function filtered(){
       const q = search.value.trim().toLowerCase();
       if(!q) return DATA;
-      return DATA.filter(it => ((it.prompt||'') + ' ' + (it.title||'') + ' ' + (it.tags||[]).join(' ')).toLowerCase().includes(q));
+      return DATA.filter(it => ((it.prompt||'') + ' ' + (it.title||'')).toLowerCase().includes(q));
     }
-
 
     search.addEventListener('input', ()=> render(filtered()));
 
-
     copyAllBtn.addEventListener('click', ()=>{
-      const all = DATA.map(d => d.prompt || '').join('\n\n---\n\n');
+      const all = DATA.map(d=>d.prompt).join('\n\n---\n\n');
       navigator.clipboard.writeText(all).then(()=> {
         copyAllBtn.textContent = 'All copied ✓';
-        setTimeout(()=> copyAllBtn.textContent = 'Copy all prompts', 1200);
+        setTimeout(()=> copyAllBtn.textContent='Copy all prompts',1200);
       });
     });
 
-
-    downloadJsonBtn.addEventListener('click', ()=>{
-      const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:'application/json'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'prompts.json'; a.click();
-    });
-
-
-    // start
     loadData();
   </script>
 </body>
