@@ -1,205 +1,122 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Prompt Gallery — Gemini</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Prompt Gallery — Gemini (Clean)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#f7fbfd;
-    --card:#ffffff;
-    --muted:#6b7280;
-    --accent:#06b6d4;
-    --accent-dark:#089aa9;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:"Inter",system-ui,Arial;color:#0f172a;background:linear-gradient(180deg,#fbfdfe,#f0f6f9)}
-  .wrap{max-width:1200px;margin:36px auto;padding:20px}
+:root{
+  --bg: #f6fbfd;
+  --card: #ffffff;
+  --muted: #64748b;
+  --accent: #06b6d4;
+  --accent-2: #089aa9;
+  --glass: rgba(255,255,255,0.75);
+  --shadow: 0 12px 30px rgba(11,22,38,0.08);
+  --radius: 14px;
+  --ease: cubic-bezier(.2,.9,.2,1);
+}
 
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-  h1{margin:0;font-size:24px;font-weight:700}
-  .controls{display:flex;gap:12px;align-items:center}
-  .search{
-    width:360px;max-width:48vw;padding:10px 14px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);
-    background:rgba(255,255,255,0.95);font-size:14px;outline:none;box-shadow:0 6px 18px rgba(11,22,38,0.03);
-  }
+*{box-sizing:border-box}
+html,body{margin:0;font-family:"Inter",system-ui,Arial;background:linear-gradient(180deg,#fbfeff,#eef7fa);color:#071028}
+.wrap{max-width:1200px;margin:36px auto;padding:22px}
 
-  /* grid */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-top:18px;align-items:stretch}
-  .grid.fade-in{animation:fadeUp .45s ease forwards;opacity:0}
-  @keyframes fadeUp{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+.header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h1{margin:0;font-size:24px;font-weight:700}
+.subtitle{color:var(--muted);margin-top:6px;font-size:13px}
+.controls{display:flex;gap:10px;align-items:center}
+.search{width:360px;max-width:44vw;padding:10px 14px;border-radius:12px;border:1px solid rgba(7,16,32,0.06);background:var(--glass);outline:none;box-shadow:0 6px 18px rgba(11,22,38,0.03)}
 
-  /* card */
-  .card{
-    background:var(--card);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;
-    box-shadow:0 10px 28px rgba(11,22,38,0.05);transition:transform .16s cubic-bezier(.2,.9,.2,1),box-shadow .16s;min-height:360px;position:relative;overflow:hidden;
-  }
-  .card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 22px 60px rgba(11,22,38,0.12);z-index:5}
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:22px}
+.card{background:var(--card);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;min-height:320px;cursor:pointer;transition:.3s var(--ease)}
+.card:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(11,22,38,0.12)}
+.imgwrap{height:240px;border-radius:10px;overflow:hidden}
+.thumb{width:100%;height:100%;object-fit:cover;object-position:top center;transition:.3s}
+.card:hover .thumb{transform:scale(1.04)}
 
-  /* image box: keep top visible by default; on hover show full image */
-  .imgwrap{width:100%;height:260px;border-radius:10px;overflow:hidden;border:1px solid rgba(6,22,34,0.03);background:linear-gradient(180deg,#eef6fb,#f7fbfd);display:block;position:relative;transition:height .28s ease}
-  .thumb{
-    display:block;width:100%;height:100%;object-fit:cover;object-position:top center;transition:object-position .28s ease, transform .28s ease, height .28s ease;
-  }
+.title{font-weight:700;font-size:15px}
+.prompt{font-size:14px;color:var(--muted);line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 
-  /* On hover: expand image container and show full image (contain) */
-  .card:hover .imgwrap{height:380px}
-  .card:hover .thumb{object-fit:contain;object-position:center center;transform:translateY(0) scale(1)}
+.copyBtn{padding:8px 14px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-2));color:white;font-weight:600;cursor:pointer}
+.copyBtn.copied{background:linear-gradient(180deg,#10b981,#059669)}
 
-  /* title & prompt (prompt clamped to 2 lines) */
-  .title{font-weight:700;font-size:15px;margin-top:6px}
-  .prompt{
-    font-size:14px;color:var(--muted);line-height:1.4;white-space:normal;overflow:hidden;
-    display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
-  }
-
-  /* actions */
-  .actions{display:flex;align-items:center;gap:10px;margin-top:6px}
-  .copyBtn{
-    height:40px;padding:8px 14px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-dark));
-    color:white;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 8px 22px rgba(6,22,34,0.07);
-    transition:transform .12s ease, box-shadow .12s ease;
-  }
-  .copyBtn:active{transform:translateY(1px) scale(.998)}
-  .copyBtn.copied{background:linear-gradient(180deg,#10b981,#059669)}
-
-  /* skeleton while loading */
-  .skeleton{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
-  .sk-card{background:linear-gradient(90deg,#fbfdfe,#f6f9fb);height:360px;border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(11,22,38,0.04);position:relative;overflow:hidden}
-  .sk-rect{height:260px;border-radius:10px;background:linear-gradient(90deg,#eef3f7,#f6fbfe);margin-bottom:12px}
-  .sk-line{height:12px;border-radius:8px;background:linear-gradient(90deg,#eef3f7,#f6fbfe);margin-bottom:8px;width:80%}
-  .sk-line.short{width:40%}
-  .pulse{animation:pulse 1.2s infinite linear}
-  @keyframes pulse{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
-
-  footer{margin-top:28px;color:var(--muted);text-align:center;font-size:13px}
-
-  /* responsive */
-  @media(max-width:900px){ .search{width:44vw} }
-  @media(max-width:740px){
-    .search{width:100%}
-    .grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
-    .imgwrap{height:200px}
-    .card{min-height:320px}
-    .card:hover .imgwrap{height:260px}
-  }
+/* modal */
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,15,0.6);z-index:999;padding:20px}
+.modal.show{display:flex}
+.modal-card{width:min(900px,95%);max-height:90vh;background:#081424;color:white;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.modal-img{max-width:100%;max-height:60vh;object-fit:contain;border-radius:8px;background:#000}
+.modal-title{font-size:18px;font-weight:700}
+.modal-prompt{font-size:14px;color:#e6f6fb;line-height:1.45;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;background:rgba(255,255,255,0.05);padding:10px;border-radius:8px}
+.modal-actions{display:flex;gap:10px;margin-top:8px}
+.footer{margin-top:22px;color:var(--muted);text-align:center;font-size:13px}
 </style>
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <h1>Prompt Gallery — Gemini</h1>
-      <div class="controls">
-        <input id="search" class="search" placeholder="Search prompts..." aria-label="Search prompts" />
+    <div class="header">
+      <div>
+        <h1>Prompt Gallery — Gemini</h1>
+        <div class="subtitle">Click a card to view. Copy prompt instantly.</div>
       </div>
-    </header>
-
-    <!-- skeleton loader -->
-    <div id="loader" class="skeleton" aria-hidden="false">
-      <div class="sk-card pulse"><div class="sk-rect"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
-      <div class="sk-card pulse"><div class="sk-rect"></div><div class="sk-line"></div><div class="sk-line"></div></div>
-      <div class="sk-card pulse"><div class="sk-rect"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+      <div class="controls">
+        <input id="search" class="search" placeholder="Search prompts..." aria-label="Search prompts"/>
+      </div>
     </div>
 
-    <div id="grid" class="grid" aria-live="polite" style="display:none;"></div>
+    <div id="grid" class="grid"></div>
+    <div class="footer">Attach your closer face photo, then copy the prompt if you like, and then submit.</div>
+  </div>
 
-    <footer id="footer">Attach your closer face photo, then copy the prompt if you like, and then submit.</footer>
+  <!-- modal -->
+  <div id="modal" class="modal">
+    <div class="modal-card">
+      <img id="modalImg" class="modal-img" src="" alt="preview"/>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-prompt" id="modalPrompt"></div>
+      <div class="modal-actions">
+        <button id="modalCopy" class="copyBtn">Copy Prompt</button>
+      </div>
+    </div>
   </div>
 
 <script>
-/* CONFIG */
 const PROMPTS_JSON_URL = 'prompts.json';
+const grid=document.getElementById('grid'),modal=document.getElementById('modal');
+const modalImg=document.getElementById('modalImg'),modalTitle=document.getElementById('modalTitle'),modalPrompt=document.getElementById('modalPrompt');
+const modalCopy=document.getElementById('modalCopy');let DATA=[];
 
-/* fallback sample */
-const sampleData = [
-  { id:'p1', title:'Black Saree Portrait', prompt:"Turn this photo into 'Create a retro, vintage-inspired image grainy yet bright - based on the reference picture. The girl should be draped in a perfect black, Pinterest-style aesthetic retro saree...'", image:'images/1.jpeg' },
-  { id:'p2', title:'Red Saree Portrait', prompt:"Turn this photo into 'Create a retro, vintage-inspired image grainy yet bright - based on the reference picture. The girl should be draped in a perfect red...'", image:'images/2.jpeg' },
-  { id:'p3', title:'Lavender Saree Portrait', prompt:"Create a retro, vintage-inspired image - grainy yet bright - based on the reference picture. The girl should be draped in a perfect lavender chiffon...", image:'images/3.jpeg' }
-];
-
-const grid = document.getElementById('grid');
-const loader = document.getElementById('loader');
-const search = document.getElementById('search');
-
-let DATA = [];
-
-function el(tag, cls){ const e = document.createElement(tag); if(cls) e.className = cls; return e; }
-function flashButton(btn){ btn.classList.add('copied'); btn.textContent = 'Copied ✓'; setTimeout(()=>{ btn.classList.remove('copied'); btn.textContent = 'Copy' }, 1100); }
+function el(tag,cls){const e=document.createElement(tag);if(cls) e.className=cls;return e}
+function flash(b){b.classList.add('copied');b.textContent='Copied ✓';setTimeout(()=>{b.classList.remove('copied');b.textContent='Copy Prompt'},1000)}
 
 function render(items){
-  loader.style.display = 'none';
-  grid.style.display = 'grid';
-  grid.classList.add('fade-in');
-  grid.innerHTML = '';
-  if(!items.length){
-    const m = el('div'); m.style.color = 'var(--muted)'; m.textContent = 'No prompts found.'; grid.appendChild(m); return;
-  }
-
-  items.forEach(it=>{
-    const card = el('div','card');
-
-    const imgwrap = el('div','imgwrap');
-    const img = el('img','thumb'); img.alt = it.title || 'image'; img.src = it.image || '';
-    img.onerror = ()=>{ img.src = 'https://via.placeholder.com/1200x800?text=No+Image' };
-    imgwrap.appendChild(img);
-
-    const meta = el('div','meta');
-    const title = el('div','title'); title.textContent = it.title || 'Untitled';
-    meta.appendChild(title);
-
-    const prompt = el('div','prompt'); prompt.textContent = it.prompt || '';
-
-    const actions = el('div','actions');
-    const left = el('div');
-    const copyBtn = el('button','copyBtn'); copyBtn.textContent = 'Copy';
-    copyBtn.addEventListener('click', async ()=>{
-      try{
-        await navigator.clipboard.writeText(it.prompt || '');
-        flashButton(copyBtn);
-      }catch(e){
-        console.error('copy failed', e);
-      }
-    });
-
-    left.appendChild(copyBtn);
-    actions.appendChild(left);
-
-    card.appendChild(imgwrap);
-    card.appendChild(meta);
-    card.appendChild(prompt);
-    card.appendChild(actions);
-    grid.appendChild(card);
+  grid.innerHTML='';
+  items.forEach((it,idx)=>{
+    const c=el('div','card');
+    const iw=el('div','imgwrap');const img=el('img','thumb');img.src=it.image;img.alt=it.title;iw.appendChild(img);
+    const t=el('div','title');t.textContent=it.title;
+    const p=el('div','prompt');p.textContent=it.prompt;
+    const btn=el('button','copyBtn');btn.textContent='Copy';btn.addEventListener('click',e=>{e.stopPropagation();navigator.clipboard.writeText(it.prompt).then(()=>flash(btn))});
+    c.appendChild(iw);c.appendChild(t);c.appendChild(p);c.appendChild(btn);
+    c.addEventListener('click',()=>openModal(it));
+    grid.appendChild(c);
   });
 }
 
-/* filter */
-function filtered(){
-  const q = (search.value || '').trim().toLowerCase();
-  if(!q) return DATA;
-  return DATA.filter(it => (((it.title||'') + ' ' + (it.prompt||'')).toLowerCase().includes(q)));
+function openModal(it){
+  modalImg.src=it.image||'';modalTitle.textContent=it.title||'';modalPrompt.textContent=it.prompt||'';modal.classList.add('show')
 }
+modal.addEventListener('click',e=>{if(e.target===modal) modal.classList.remove('show')});
+modalCopy.addEventListener('click',()=>{navigator.clipboard.writeText(modalPrompt.textContent).then(()=>flash(modalCopy))});
 
-/* load data */
 async function loadData(){
-  try{
-    const res = await fetch(PROMPTS_JSON_URL, {cache:'no-store'});
-    if(!res.ok) throw new Error('no remote JSON');
-    const txt = await res.text();
-    const j = JSON.parse(txt);
-    if(!Array.isArray(j)) throw new Error('remote JSON not array');
-    DATA = j;
-  }catch(err){
-    console.warn('Using fallback sample data —', err.message);
-    DATA = sampleData.slice();
-  }
-  render(DATA);
+  try{const res=await fetch(PROMPTS_JSON_URL);DATA=await res.json()}catch{DATA=[]}
+  render(DATA)
 }
-
-/* events */
-search.addEventListener('input', ()=> render(filtered()));
-
-/* start */
+document.getElementById('search').addEventListener('input',e=>{
+  const q=e.target.value.toLowerCase();render(DATA.filter(it=>(it.title+it.prompt).toLowerCase().includes(q)))
+});
 loadData();
 </script>
 </body>
