@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Prompt Gallery — Gemini (2-col mobile)</title>
+<title>Prompt Gallery — Gemini with Full Image</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -13,182 +13,102 @@
     --accent:#06b6d4;
     --accent-dark:#089aa9;
     --radius:12px;
-    --ease:cubic-bezier(.2,.9,.2,1);
   }
   *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:"Inter",system-ui,Arial;color:#0f172a;background:linear-gradient(180deg,#fbfdfe,#f0f6f9);-webkit-font-smoothing:antialiased}
+  body{margin:0;font-family:"Inter",system-ui,Arial;background:linear-gradient(180deg,#fbfdfe,#f0f6f9);color:#0f172a}
   .wrap{max-width:1200px;margin:28px auto;padding:18px}
 
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
-  h1{margin:0;font-size:22px;font-weight:700}
-  .controls{display:flex;gap:10px;align-items:center}
-  .search{
-    width:380px;max-width:46vw;padding:10px 14px;border-radius:12px;border:1px solid rgba(15,23,42,0.06);
-    background:rgba(255,255,255,0.95);font-size:14px;outline:none;box-shadow:0 6px 18px rgba(11,22,38,0.03);
-    transition:box-shadow .12s,transform .12s;
-  }
-  .search:focus{transform:translateY(-2px);box-shadow:0 12px 30px rgba(11,22,38,0.06)}
+  .grid{display:grid;gap:16px;margin-top:16px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+  .card{background:var(--card);border-radius:var(--radius);padding:12px;display:flex;flex-direction:column;gap:10px;
+    box-shadow:0 10px 26px rgba(11,22,38,0.05);position:relative}
+  .imgwrap{position:relative;width:100%;height:200px;border-radius:10px;overflow:hidden}
+  .thumb{width:100%;height:100%;object-fit:cover;object-position:bottom right}
 
-  /* Grid: desktop 4, large tablet 3, tablet 2, mobile 2 */
-  .grid{display:grid;gap:16px;margin-top:16px;align-items:stretch;
-    grid-template-columns: repeat(4, minmax(0,1fr));
+  /* expand icon */
+  .expandBtn{
+    position:absolute;bottom:8px;right:8px;
+    background:rgba(0,0,0,0.6);border:none;color:#fff;
+    width:32px;height:32px;border-radius:50%;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;line-height:1;
   }
-  @media (max-width:1100px){ .grid{grid-template-columns: repeat(3, minmax(0,1fr));} }
-  @media (max-width:820px){ .grid{grid-template-columns: repeat(2, minmax(0,1fr));} }
-  @media (max-width:480px){ .grid{grid-template-columns: repeat(2, minmax(0,1fr)); gap:10px} }
-
-  .card{
-    background:var(--card);border-radius:var(--radius);padding:12px;display:flex;flex-direction:column;gap:10px;
-    box-shadow:0 10px 26px rgba(11,22,38,0.05);transition:transform .16s var(--ease),box-shadow .16s;min-height:300px;overflow:hidden;
-  }
-  @media (hover: hover) and (pointer: fine){
-    .card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 22px 60px rgba(11,22,38,0.12);z-index:3}
-  }
-
-  /* image sizes scale with column width - default object-position bottom right */
-  .imgwrap{width:100%;height:200px;border-radius:10px;overflow:hidden;border:1px solid rgba(6,22,34,0.03);background:linear-gradient(180deg,#eef6fb,#f7fbfd);position:relative;transition:height .28s var(--ease)}
-  .thumb{display:block;width:100%;height:100%;object-fit:cover;object-position:bottom right;transition:transform .32s var(--ease),object-fit .28s var(--ease),object-position .28s var(--ease)}
-  @media (max-width:740px){ .imgwrap{height:160px} }
-  @media (max-width:480px){ .imgwrap{height:140px} }
-
-  /* hover expansion only on hover-capable devices - then show full image contain center */
-  @media (hover: hover) and (pointer: fine){
-    .card:hover .imgwrap{height:280px}
-    .card:hover .thumb{object-fit:contain;object-position:center center;transform:translateY(0) scale(1)}
-  }
+  .expandBtn:hover{background:rgba(0,0,0,0.75)}
 
   .title{font-weight:700;font-size:15px}
-  .prompt{
-    font-size:13px;color:var(--muted);line-height:1.35;white-space:normal;overflow:hidden;
-    display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
-  }
+  .prompt{font-size:13px;color:var(--muted);line-height:1.35;overflow:hidden;
+    display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
 
-  .actions{display:flex;align-items:center;gap:10px;margin-top:6px}
-  .copyBtn{
-    height:36px;padding:6px 12px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-dark));
-    color:white;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 8px 22px rgba(6,22,34,0.07);
-    transition:transform .12s ease,box-shadow .12s ease;
-  }
-  .copyBtn:active{transform:translateY(1px) scale(.998)}
+  .actions{margin-top:6px}
+  .copyBtn{padding:6px 12px;border-radius:8px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+    color:#fff;font-weight:600;cursor:pointer}
   .copyBtn.copied{background:linear-gradient(180deg,#10b981,#059669)}
 
-  @media (max-width:480px){ .actions{flex-direction:column;align-items:stretch} .copyBtn{width:100%} }
-
-  /* skeleton */
-  .skeleton{display:grid;gap:16px;grid-template-columns:repeat(3,1fr)}
-  @media (max-width:1100px){ .skeleton{grid-template-columns:repeat(2,1fr)} }
-  @media (max-width:640px){ .skeleton{grid-template-columns:repeat(1,1fr)} }
-  .sk-card{height:300px;border-radius:12px;padding:12px;background:linear-gradient(90deg,#fbfdfe,#f6f9fb);box-shadow:0 6px 18px rgba(11,22,38,0.04);position:relative;overflow:hidden}
-  .sk-rect{height:160px;border-radius:10px;background:linear-gradient(90deg,#eef3f7,#f6fbfe);margin-bottom:12px}
-  .sk-line{height:12px;border-radius:8px;background:linear-gradient(90deg,#eef3f7,#f6fbfe);margin-bottom:8px;width:80%}
-  .pulse{animation:pulse 1.2s infinite linear}
-  @keyframes pulse{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
-
-  footer{margin-top:18px;color:var(--muted);text-align:center;font-size:13px;padding-bottom:18px}
-  .card:focus-within{outline:3px solid rgba(6,182,212,0.12);outline-offset:3px}
-  .copyBtn:focus{box-shadow:0 0 0 3px rgba(6,182,212,0.12)}
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:1000}
+  .modal.show{display:flex}
+  .modal-content{background:#000;padding:10px;border-radius:8px;max-width:95%;max-height:90%}
+  .modal-content img{max-width:100%;max-height:80vh;object-fit:contain}
+  .closeModal{display:block;margin:8px auto 0;background:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-weight:600}
 </style>
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <h1>Prompt Gallery — Gemini</h1>
-      <div class="controls">
-        <input id="search" class="search" placeholder="Search prompts..." aria-label="Search prompts" />
-      </div>
-    </header>
+    <h1>Prompt Gallery — Gemini</h1>
+    <div id="grid" class="grid"></div>
+  </div>
 
-    <!-- loader skeleton -->
-    <div id="loader" class="skeleton" aria-hidden="false">
-      <div class="sk-card pulse"><div class="sk-rect"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
-      <div class="sk-card pulse"><div class="sk-rect"></div><div class="sk-line"></div><div class="sk-line"></div></div>
-      <div class="sk-card pulse"><div class="sk-rect"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+  <!-- modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <img id="modalImg" src="" alt="Full view">
+      <button id="closeModal" class="closeModal">Close</button>
     </div>
-
-    <div id="grid" class="grid" aria-live="polite" style="display:none;"></div>
-
-    <footer id="footer">Attach your closer face photo, then copy the prompt if you like, and then submit.</footer>
   </div>
 
 <script>
-/* CONFIG */
 const PROMPTS_JSON_URL = 'prompts.json';
-const grid = document.getElementById('grid');
-const loader = document.getElementById('loader');
-const search = document.getElementById('search');
+const grid=document.getElementById('grid');
+const modal=document.getElementById('modal');
+const modalImg=document.getElementById('modalImg');
+const closeModal=document.getElementById('closeModal');
+let DATA=[];
 
-let DATA = [];
-
-function el(tag, cls){ const e = document.createElement(tag); if(cls) e.className = cls; return e; }
-function flash(btn){ btn.classList.add('copied'); btn.textContent = 'Copied ✓'; setTimeout(()=>{ btn.classList.remove('copied'); btn.textContent = 'Copy' }, 1100); }
+function el(t,c){const e=document.createElement(t);if(c)e.className=c;return e;}
+function flash(btn){btn.classList.add('copied');btn.textContent='Copied ✓';setTimeout(()=>{btn.classList.remove('copied');btn.textContent='Copy'},1000);}
 
 function render(items){
-  loader.style.display = 'none';
-  grid.style.display = 'grid';
-  grid.innerHTML = '';
-  if(!items.length){
-    const m = el('div'); m.style.color = 'var(--muted)'; m.textContent = 'No prompts found.'; grid.appendChild(m); return;
-  }
+  grid.innerHTML='';
+  items.forEach(it=>{
+    const card=el('div','card');
+    const iw=el('div','imgwrap');
+    const img=el('img','thumb');img.src=it.image;img.alt=it.title||'img';
+    const expand=el('button','expandBtn');expand.innerHTML='🔍';
+    expand.addEventListener('click',e=>{e.stopPropagation();openModal(it.image)});
+    iw.appendChild(img);iw.appendChild(expand);
 
-  items.forEach((it, idx) => {
-    const card = el('div','card');
-    card.tabIndex = 0;
-    const imgwrap = el('div','imgwrap');
-    const img = el('img','thumb'); img.alt = it.title || 'image'; img.src = it.image || '';
-    img.onerror = ()=>{ img.src = 'https://via.placeholder.com/1200x800?text=No+Image' };
-    imgwrap.appendChild(img);
+    const title=el('div','title');title.textContent=it.title;
+    const prompt=el('div','prompt');prompt.textContent=it.prompt;
 
-    const title = el('div','title'); title.textContent = it.title || 'Untitled';
-    const prompt = el('div','prompt'); prompt.textContent = it.prompt || '';
-
-    const actions = el('div','actions');
-    const copyBtn = el('button','copyBtn'); copyBtn.textContent='Copy';
-    copyBtn.addEventListener('click', async (e) => {
-      e.stopPropagation();
-      try{ await navigator.clipboard.writeText(it.prompt || ''); flash(copyBtn); }catch(err){ console.error('copy failed',err) }
-    });
-
+    const actions=el('div','actions');
+    const copyBtn=el('button','copyBtn');copyBtn.textContent='Copy';
+    copyBtn.addEventListener('click',async()=>{await navigator.clipboard.writeText(it.prompt);flash(copyBtn)});
     actions.appendChild(copyBtn);
 
-    card.appendChild(imgwrap);
-    card.appendChild(title);
-    card.appendChild(prompt);
-    card.appendChild(actions);
+    card.appendChild(iw);card.appendChild(title);card.appendChild(prompt);card.appendChild(actions);
     grid.appendChild(card);
   });
 }
 
-/* search filter */
-function filtered(){
-  const q = (search.value || '').trim().toLowerCase();
-  if(!q) return DATA;
-  return DATA.filter(it => (((it.title||'') + ' ' + (it.prompt||'')).toLowerCase().includes(q)));
-}
+function openModal(src){modalImg.src=src;modal.classList.add('show')}
+closeModal.addEventListener('click',()=>modal.classList.remove('show'));
+modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
 
-/* load data from prompts.json */
 async function loadData(){
   try{
-    const res = await fetch(PROMPTS_JSON_URL, {cache:'no-store'});
-    if(!res.ok) throw new Error('no remote JSON');
-    const txt = await res.text();
-    const j = JSON.parse(txt);
-    if(!Array.isArray(j)) throw new Error('remote JSON not array');
-    DATA = j;
-  }catch(err){
-    console.warn('Using fallback sample data —', err.message);
-    DATA = [
-      { id:'p1', title:'Black Saree Portrait', prompt:"Turn this photo into a retro, vintage-inspired image, grainy yet bright. The girl should be draped in a perfect black saree...", image:'images/1.jpeg' },
-      { id:'p2', title:'Red Saree Portrait', prompt:"Turn this photo into a retro, vintage-inspired image, grainy yet bright. The girl should be draped in a perfect red saree...", image:'images/2.jpeg' },
-      { id:'p3', title:'Lavender Saree Portrait', prompt:"Create a retro, vintage-inspired image - grainy yet bright - the girl should be draped in a lavender chiffon saree...", image:'images/3.jpeg' }
-    ];
-  }
+    const res=await fetch(PROMPTS_JSON_URL);DATA=await res.json();
+  }catch{DATA=[{title:'Sample',prompt:'Test prompt',image:'https://via.placeholder.com/600x400'}]}
   render(DATA);
 }
-
-/* events */
-search.addEventListener('input', ()=> render(filtered()));
-
-/* start */
 loadData();
 </script>
 </body>
