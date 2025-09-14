@@ -1,124 +1,251 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Prompt Gallery — Gemini</title>
-  <style>
-    :root{--bg:#f8fafc;--card:#ffffff;--accent:#06b6d4}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial;color:#0b2540;background:var(--bg)}
-    .wrap{max-width:1100px;margin:28px auto;padding:18px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-    h1{margin:0;font-size:22px}
-    .controls{display:flex;gap:8px;align-items:center}
-    input.search{padding:8px 10px;border-radius:10px;border:1px solid #e6eef6;min-width:220px}
-    button.btn{background:var(--accent);border:none;padding:8px 12px;border-radius:10px;color:#022;cursor:pointer;font-weight:600}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:18px}
-    .card{background:var(--card);border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.06);padding:12px;display:flex;flex-direction:column;gap:8px}
-    .thumb{width:100%;height:160px;object-fit:cover;border-radius:8px;background:#f1f5f9}
-    .title{font-weight:700;font-size:14px}
-    .prompt{font-size:13px;color:#334155;min-height:56px;white-space:pre-wrap;overflow:hidden}
-    .copyBtn{background:var(--accent);border:none;padding:8px 10px;border-radius:8px;color:white;cursor:pointer;font-size:13px;font-weight:600}
-    footer{margin-top:20px;color:#64748b;font-size:13px}
-    @media(max-width:720px){.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}}
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Prompt Gallery — Gemini</title>
+
+<!-- Google font (optional) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#f6f9fb;
+    --card:#ffffff;
+    --muted:#6b7280;
+    --accent:#06b6d4;
+    --accent-dark:#089aa9;
+    --glass: rgba(255,255,255,0.6);
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:"Inter",system-ui,Arial;color:#0f172a;background:linear-gradient(180deg,#f7fbfd 0%, #f0f6f9 100%);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1200px;margin:40px auto;padding:24px}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .title-wrap{display:flex;flex-direction:column}
+  h1{margin:0;font-size:24px;font-weight:700;letter-spacing:-0.2px}
+  .sub{margin-top:6px;color:var(--muted);font-size:14px}
+
+  .controls{display:flex;gap:10px;align-items:center}
+  .search {
+    width:360px; max-width:48vw;
+    padding:10px 14px;border-radius:14px;border:1px solid rgba(15,23,42,0.06);
+    background:rgba(255,255,255,0.9); outline:none; font-size:14px; color:inherit;
+    box-shadow: 0 6px 18px rgba(11,22,38,0.03);
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .search:focus{transform:translateY(-2px);box-shadow:0 12px 30px rgba(11,22,38,0.08)}
+
+  /* grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:22px;align-items:stretch}
+  /* entrance animation */
+  .grid.fade-in { animation:fadeUp .45s ease forwards; opacity:0 }
+  @keyframes fadeUp { from { transform: translateY(10px); opacity: 0 } to { transform: translateY(0); opacity:1 } }
+
+  /* card */
+  .card{
+    background:var(--card);
+    border-radius:14px;
+    padding:14px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    box-shadow: 0 8px 30px rgba(11,22,38,0.05);
+    transform-origin:center;
+    transition: transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .18s ease;
+    will-change: transform;
+    min-height:320px;
+    overflow:hidden;
+    position:relative;
+  }
+  .card:hover{ transform: translateY(-8px) scale(1.01); box-shadow: 0 18px 40px rgba(11,22,38,0.09) }
+
+  .thumb{
+    width:100%;
+    height:170px;
+    border-radius:10px;
+    object-fit:cover;
+    background:linear-gradient(180deg,#eef6fb,#f7fbfd);
+    border:1px solid rgba(6,22,34,0.03);
+    box-shadow: inset 0 -12px 30px rgba(255,255,255,0.6);
+  }
+
+  .meta {display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .title{font-weight:700;font-size:15px;margin-top:2px}
+  .prompt{font-size:13px;color:var(--muted);line-height:1.45;white-space:pre-wrap;overflow:hidden;flex:1}
+
+  .actions{display:flex;align-items:center;gap:10px;margin-top:6px}
+  .copyBtn{
+    --h:38px;
+    height:var(--h);padding:8px 14px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-dark));color:white;font-weight:700;cursor:pointer;
+    display:inline-flex;align-items:center;gap:8px;box-shadow:0 8px 20px rgba(6,22,34,0.08);
+    transition: transform .12s ease, box-shadow .12s ease, opacity .12s;
+  }
+  .copyBtn:active{ transform: translateY(1px) scale(.997); box-shadow:0 6px 16px rgba(6,22,34,0.06) }
+  .copyBtn.copied{ background:linear-gradient(180deg,#10b981,#059669); box-shadow:0 8px 22px rgba(6,22,34,0.08) }
+
+  /* skeleton while loading */
+  .skeleton{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+  .sk-card{background:linear-gradient(90deg,#fbfdfe,#f6f9fb);height:320px;border-radius:14px;padding:12px;box-shadow:0 6px 18px rgba(11,22,38,0.04);position:relative;overflow:hidden}
+  .sk-rect{height:160px;border-radius:10px;background:linear-gradient(90deg,#eef3f7,#f6fbfe);margin-bottom:12px}
+  .sk-line{height:12px;border-radius:8px;background:linear-gradient(90deg,#eef3f7,#f6fbfe);margin-bottom:8px;width:80%}
+  .sk-line.short{width:40%}
+  .pulse{animation: pulse 1.2s infinite linear}
+  @keyframes pulse{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
+
+  footer{margin-top:28px;color:var(--muted);text-align:center;font-size:13px}
+
+  /* responsive */
+  @media (max-width:860px){ .search{width:48vw} }
+  @media (max-width:520px){
+    header{align-items:flex-start}
+    .search{width:100%}
+  }
+</style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>Prompt Gallery — Gemini</h1>
+      <div class="title-wrap">
+        <h1>Prompt Gallery — Gemini</h1>
+        <!-- removed tagline per request -->
+      </div>
+
       <div class="controls">
-        <input id="search" class="search" placeholder="Search prompts..." />
-        <button id="copyAll" class="btn">Copy all prompts</button>
+        <input id="search" class="search" placeholder="Search prompts..." aria-label="Search prompts"/>
       </div>
     </header>
 
-    <div id="grid" class="grid" aria-live="polite"></div>
+    <!-- skeleton loader -->
+    <div id="loader" class="skeleton" aria-hidden="false">
+      <div class="sk-card pulse">
+        <div class="sk-rect"></div>
+        <div class="sk-line"></div>
+        <div class="sk-line"></div>
+        <div style="height:44px"></div>
+      </div>
+      <div class="sk-card pulse">
+        <div class="sk-rect"></div>
+        <div class="sk-line"></div>
+        <div class="sk-line short"></div>
+        <div style="height:44px"></div>
+      </div>
+      <div class="sk-card pulse">
+        <div class="sk-rect"></div>
+        <div class="sk-line"></div>
+        <div class="sk-line"></div>
+        <div style="height:44px"></div>
+      </div>
+    </div>
 
-    <footer>
-      Attach your closer face photo, then copy the prompt if you like, and then submit.
-    </footer>
+    <div id="grid" class="grid" aria-live="polite" style="display:none"></div>
 
+    <footer id="footer">Attach your closer face photo, then copy the prompt if you like, and then submit.</footer>
   </div>
 
-  <script>
-    const PROMPTS_JSON_URL = 'prompts.json'; 
+<script>
+/* CONFIG: relative path in repo */
+const PROMPTS_JSON_URL = 'prompts.json';
 
-    const sampleData = [
-      {
-        "id": "p1",
-        "title": "Sunlit Portrait",
-        "prompt": "4k HD realistic portrait of an Indian man, golden hour lighting, cinematic, sharp details, soft bokeh",
-        "image": "images/example1.jpg"
-      },
-      {
-        "id": "p2",
-        "title": "Red Saree",
-        "prompt": "4k HD portrait of an Indian woman in a red saree, warm tones, soft light, traditional jewelry",
-        "image": "images/example2.jpg"
-      }
-    ];
+/* sample fallback */
+const sampleData = [
+  { id:'p1', title:'Sunlit Portrait', prompt:'4k HD realistic portrait of an Indian man, golden hour lighting, cinematic, soft bokeh', image:'https://images.unsplash.com/photo-1517466787928-0f1e9e5f1f51?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=1' },
+  { id:'p2', title:'Red Saree', prompt:'4k HD portrait of an Indian woman in a red saree, warm tones, soft light, traditional jewelry', image:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=1' }
+];
 
-    const grid = document.getElementById('grid');
-    const search = document.getElementById('search');
-    const copyAllBtn = document.getElementById('copyAll');
-    let DATA = [];
+const grid = document.getElementById('grid');
+const loader = document.getElementById('loader');
+const search = document.getElementById('search');
 
-    async function loadData(){
+let DATA = [];
+
+/* utility: create element with class */
+function el(tag, cls){ const e = document.createElement(tag); if(cls) e.className = cls; return e; }
+
+/* copy animation helper */
+function flashButton(btn){
+  btn.classList.add('copied');
+  btn.textContent = 'Copied ✓';
+  setTimeout(()=>{ btn.classList.remove('copied'); btn.textContent = 'Copy' }, 1100);
+}
+
+/* render cards */
+function render(items){
+  loader.style.display = 'none';
+  grid.style.display = 'grid';
+  grid.classList.add('fade-in');
+  grid.innerHTML = '';
+  if(!items.length){
+    const m = el('div'); m.style.color = 'var(--muted)'; m.textContent = 'No prompts found.';
+    grid.appendChild(m); return;
+  }
+
+  items.forEach((it, idx)=>{
+    const card = el('div','card');
+
+    const img = el('img','thumb'); img.alt = it.title || 'image'; img.src = it.image || '';
+    img.onerror = ()=> { img.src = 'https://via.placeholder.com/800x600?text=No+Image' };
+
+    const meta = el('div','meta');
+    const title = el('div','title'); title.textContent = it.title || 'Untitled';
+    meta.appendChild(title);
+
+    const prompt = el('div','prompt'); prompt.textContent = it.prompt || '';
+
+    const actions = el('div','actions');
+    const left = el('div');
+    const copyBtn = el('button','copyBtn'); copyBtn.textContent = 'Copy';
+    copyBtn.addEventListener('click', async ()=>{
       try{
-        const r = await fetch(PROMPTS_JSON_URL, {cache:'no-store'});
-        if(!r.ok) throw new Error('no prompts.json');
-        const j = await r.json();
-        if(!Array.isArray(j)) throw new Error('not array');
-        DATA = j;
-      }catch(err){
-        DATA = sampleData.slice();
+        await navigator.clipboard.writeText(it.prompt || '');
+        flashButton(copyBtn);
+      }catch(e){
+        copyBtn.textContent = 'Copy';
+        console.error('copy failed', e);
       }
-      render(DATA);
-    }
-
-    function render(items){
-      grid.innerHTML = '';
-      if(!items.length){ grid.innerHTML = '<div style="color:#64748b">No prompts found.</div>'; return; }
-      items.forEach(it => {
-        const card = document.createElement('div'); card.className = 'card';
-        const img = document.createElement('img'); img.className = 'thumb'; img.alt = it.title; img.src = it.image;
-        img.onerror = ()=>{ img.src='https://via.placeholder.com/600x400?text=No+Image' };
-        const title = document.createElement('div'); title.className='title'; title.textContent = it.title;
-        const prompt = document.createElement('div'); prompt.className='prompt'; prompt.textContent = it.prompt;
-        const copyBtn = document.createElement('button'); copyBtn.className='copyBtn'; copyBtn.textContent='Copy';
-        copyBtn.addEventListener('click', ()=> {
-          navigator.clipboard.writeText(it.prompt).then(()=> {
-            copyBtn.textContent='Copied ✓';
-            setTimeout(()=> copyBtn.textContent='Copy', 1000);
-          });
-        });
-        card.appendChild(img);
-        card.appendChild(title);
-        card.appendChild(prompt);
-        card.appendChild(copyBtn);
-        grid.appendChild(card);
-      });
-    }
-
-    function filtered(){
-      const q = search.value.trim().toLowerCase();
-      if(!q) return DATA;
-      return DATA.filter(it => ((it.prompt||'') + ' ' + (it.title||'')).toLowerCase().includes(q));
-    }
-
-    search.addEventListener('input', ()=> render(filtered()));
-
-    copyAllBtn.addEventListener('click', ()=>{
-      const all = DATA.map(d=>d.prompt).join('\n\n---\n\n');
-      navigator.clipboard.writeText(all).then(()=> {
-        copyAllBtn.textContent = 'All copied ✓';
-        setTimeout(()=> copyAllBtn.textContent='Copy all prompts',1200);
-      });
     });
 
-    loadData();
-  </script>
+    left.appendChild(copyBtn);
+    actions.appendChild(left);
+
+    card.appendChild(img);
+    card.appendChild(meta);
+    card.appendChild(prompt);
+    card.appendChild(actions);
+    grid.appendChild(card);
+  });
+}
+
+/* filter */
+function filtered(){
+  const q = (search.value || '').trim().toLowerCase();
+  if(!q) return DATA;
+  return DATA.filter(it => (((it.title||'') + ' ' + (it.prompt||'')).toLowerCase().includes(q)));
+}
+
+/* load data from prompts.json */
+async function loadData(){
+  try{
+    const res = await fetch(PROMPTS_JSON_URL, {cache:'no-store'});
+    if(!res.ok) throw new Error('no remote JSON');
+    const txt = await res.text();
+    const j = JSON.parse(txt);
+    if(!Array.isArray(j)) throw new Error('remote JSON not array');
+    DATA = j;
+  }catch(err){
+    console.warn('Using fallback sample data —', err.message);
+    DATA = sampleData.slice();
+  }
+  render(DATA);
+}
+
+/* events */
+search.addEventListener('input', ()=> render(filtered()));
+
+/* start */
+loadData();
+
+</script>
 </body>
 </html>
-
