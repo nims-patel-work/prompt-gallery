@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Prompt Gallery — Gemini</title>
+<title>Prompt Gallery — Gemini (2-col mobile)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -29,72 +29,62 @@
   }
   .search:focus{transform:translateY(-2px);box-shadow:0 12px 30px rgba(11,22,38,0.06)}
 
-  /* responsive grid: 4 / 3 / 2 / 1 columns */
+  /* Grid: desktop 4, large tablet 3, tablet 2, mobile 2 */
   .grid{display:grid;gap:16px;margin-top:16px;align-items:stretch;
     grid-template-columns: repeat(4, minmax(0,1fr));
   }
   @media (max-width:1100px){ .grid{grid-template-columns: repeat(3, minmax(0,1fr));} }
   @media (max-width:820px){ .grid{grid-template-columns: repeat(2, minmax(0,1fr));} }
-  @media (max-width:480px){ .grid{grid-template-columns: repeat(1, minmax(0,1fr));} }
+  @media (max-width:480px){ .grid{grid-template-columns: repeat(2, minmax(0,1fr)); gap:10px} }
 
   .card{
     background:var(--card);border-radius:var(--radius);padding:12px;display:flex;flex-direction:column;gap:10px;
-    box-shadow:0 10px 26px rgba(11,22,38,0.05);transition:transform .16s var(--ease),box-shadow .16s;min-height:320px;overflow:hidden;
+    box-shadow:0 10px 26px rgba(11,22,38,0.05);transition:transform .16s var(--ease),box-shadow .16s;min-height:300px;overflow:hidden;
   }
-  /* apply hover transforms only on devices that support hover */
   @media (hover: hover) and (pointer: fine){
     .card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 22px 60px rgba(11,22,38,0.12);z-index:3}
   }
 
-  /* image box sizes adapt */
-  .imgwrap{width:100%;height:260px;border-radius:10px;overflow:hidden;border:1px solid rgba(6,22,34,0.03);background:linear-gradient(180deg,#eef6fb,#f7fbfd);position:relative;transition:height .28s var(--ease)}
-  .thumb{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .32s var(--ease),object-fit .28s var(--ease)}
-  /* hover expansion only for hover-capable devices */
+  /* image sizes scale with column width - default object-position bottom right */
+  .imgwrap{width:100%;height:200px;border-radius:10px;overflow:hidden;border:1px solid rgba(6,22,34,0.03);background:linear-gradient(180deg,#eef6fb,#f7fbfd);position:relative;transition:height .28s var(--ease)}
+  .thumb{display:block;width:100%;height:100%;object-fit:cover;object-position:bottom right;transition:transform .32s var(--ease),object-fit .28s var(--ease),object-position .28s var(--ease)}
+  @media (max-width:740px){ .imgwrap{height:160px} }
+  @media (max-width:480px){ .imgwrap{height:140px} }
+
+  /* hover expansion only on hover-capable devices - then show full image contain center */
   @media (hover: hover) and (pointer: fine){
-    .card:hover .imgwrap{height:360px}
+    .card:hover .imgwrap{height:280px}
     .card:hover .thumb{object-fit:contain;object-position:center center;transform:translateY(0) scale(1)}
   }
 
-  /* on small screens smaller default image height */
-  @media (max-width:740px){
-    .imgwrap{height:200px}
-    @media (hover: hover) and (pointer: fine) { .card:hover .imgwrap{height:260px} }
-  }
-
-  .title{font-weight:700;font-size:15px;margin-top:6px}
+  .title{font-weight:700;font-size:15px}
   .prompt{
-    font-size:14px;color:var(--muted);line-height:1.4;white-space:normal;overflow:hidden;
+    font-size:13px;color:var(--muted);line-height:1.35;white-space:normal;overflow:hidden;
     display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
   }
 
   .actions{display:flex;align-items:center;gap:10px;margin-top:6px}
   .copyBtn{
-    height:40px;padding:8px 14px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+    height:36px;padding:6px 12px;border-radius:10px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-dark));
     color:white;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:0 8px 22px rgba(6,22,34,0.07);
     transition:transform .12s ease,box-shadow .12s ease;
   }
   .copyBtn:active{transform:translateY(1px) scale(.998)}
   .copyBtn.copied{background:linear-gradient(180deg,#10b981,#059669)}
 
-  /* full width buttons on mobile for easier tap */
-  @media (max-width:480px){
-    .actions{flex-direction:column;align-items:stretch}
-    .copyBtn{width:100%}
-  }
+  @media (max-width:480px){ .actions{flex-direction:column;align-items:stretch} .copyBtn{width:100%} }
 
   /* skeleton */
   .skeleton{display:grid;gap:16px;grid-template-columns:repeat(3,1fr)}
   @media (max-width:1100px){ .skeleton{grid-template-columns:repeat(2,1fr)} }
   @media (max-width:640px){ .skeleton{grid-template-columns:repeat(1,1fr)} }
-  .sk-card{height:320px;border-radius:12px;padding:12px;background:linear-gradient(90deg,#fbfdfe,#f6f9fb);box-shadow:0 6px 18px rgba(11,22,38,0.04);position:relative;overflow:hidden}
-  .sk-rect{height:180px;border-radius:10px;background:linear-gradient(90deg,#eef3f7,#f6fbfe);margin-bottom:12px}
+  .sk-card{height:300px;border-radius:12px;padding:12px;background:linear-gradient(90deg,#fbfdfe,#f6f9fb);box-shadow:0 6px 18px rgba(11,22,38,0.04);position:relative;overflow:hidden}
+  .sk-rect{height:160px;border-radius:10px;background:linear-gradient(90deg,#eef3f7,#f6fbfe);margin-bottom:12px}
   .sk-line{height:12px;border-radius:8px;background:linear-gradient(90deg,#eef3f7,#f6fbfe);margin-bottom:8px;width:80%}
   .pulse{animation:pulse 1.2s infinite linear}
   @keyframes pulse{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
 
-  footer{margin-top:20px;color:var(--muted);text-align:center;font-size:13px;padding-bottom:28px}
-
-  /* focus styles for accessibility */
+  footer{margin-top:18px;color:var(--muted);text-align:center;font-size:13px;padding-bottom:18px}
   .card:focus-within{outline:3px solid rgba(6,182,212,0.12);outline-offset:3px}
   .copyBtn:focus{box-shadow:0 0 0 3px rgba(6,182,212,0.12)}
 </style>
@@ -142,7 +132,7 @@ function render(items){
 
   items.forEach((it, idx) => {
     const card = el('div','card');
-    card.tabIndex = 0; // make focusable
+    card.tabIndex = 0;
     const imgwrap = el('div','imgwrap');
     const img = el('img','thumb'); img.alt = it.title || 'image'; img.src = it.image || '';
     img.onerror = ()=>{ img.src = 'https://via.placeholder.com/1200x800?text=No+Image' };
@@ -156,13 +146,6 @@ function render(items){
     copyBtn.addEventListener('click', async (e) => {
       e.stopPropagation();
       try{ await navigator.clipboard.writeText(it.prompt || ''); flash(copyBtn); }catch(err){ console.error('copy failed',err) }
-    });
-
-    // on mobile tap whole card to copy as well (makes quick usage easier)
-    card.addEventListener('click', (e)=>{
-      // avoid double-action when pressing copy button
-      if(e.target === copyBtn) return;
-      navigator.clipboard.writeText(it.prompt || '').then(()=> flash(copyBtn)).catch(()=>{});
     });
 
     actions.appendChild(copyBtn);
