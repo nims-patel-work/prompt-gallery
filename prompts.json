@@ -3,49 +3,56 @@
     "id": "p1",
     "title": "Black Saree Portrait",
     "prompt": "Turn this photo into 'Create a retro, vintage-inspired image grainy yet bright - based on the reference picture. The girl should be draped in a perfect black, Pinterest-style aesthetic retro saree. The vibe must capture the essence of a 90s movie brown-longhaired baddie, with wavy curls and a small flower tucked visibly into her hair, enhanced by a windy, romantic atmosphere. She stands against a solid wall, where deep shadows and dramatic contrasts add mystery and artistry to the scene, creating a moody yet enchanting cinematic effect.'",
-    "image": "https://nims-patel-work.github.io/prompt-gallery/images/1.jpeg"
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/1.jpeg",
+    "category": "Woman"
   },
   {
     "id": "p2",
     "title": "Red Saree Portrait",
     "prompt": "Turn this photo into 'Create a retro, vintage-inspired image grainy yet bright - based on the reference picture. The girl should be draped in a perfect red, Pinterest-style aesthetic retro saree. The vibe must capture the essence of a 90s movie brown-haired baddie, with wavy curls and a small flower tucked visibly into her hair, enhanced by a windy, romantic atmosphere. She stands against a solid wall, where deep shadows and dramatic contrasts add mystery and artistry to the scene, creating a moody yet enchanting cinematic effect.'",
-    "image": "https://nims-patel-work.github.io/prompt-gallery/images/2.jpeg"
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/2.jpeg",
+    "category": "Woman"
   },
   {
     "id": "p3",
     "title": "Lavender Saree Portrait",
     "prompt": "Create a retro, vintage-inspired image - grainy yet bright - based on the reference picture. The girl should be draped in a perfect lavender chiffon, Pinterest-style aesthetic saree. The vibe must capture the essence of a 90s movie dark-brown-longhaired baddie, with silky hair and a small flower tucked visibly into her hair, enhanced by a windy, romantic atmosphere. She is standing against an old wooden door, where deep shadows and dramatic contrasts add mystery and artistry to the scene, creating a moody yet enchanting cinematic effect. Her pose should suggest that she is adjusting her hair.",
-    "image": "https://nims-patel-work.github.io/prompt-gallery/images/3.jpeg"
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/3.jpeg",
+    "category": "Woman"
   },
   {
     "id": "p4",
     "title": "Yellow Saree Portrait",
     "prompt": "Create a retro, vintage-inspired image grainy yet bright - based on the reference picture. The girl should be draped in a perfect yellow, Pinterest-style aesthetic retro saree. The vibe must capture the essence of a 90s movie brown-longhaired baddie, with wavy curls and a small flower tucked visibly into her hair, enhanced by a windy, romantic atmosphere. She stands against a solid wall, where deep shadows and dramatic contrasts add mystery and artistry to the scene, creating a moody yet enchanting cinematic effect. With long size image",
-    "image": "images/4.jpeg"
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/4.jpeg",
+    "category": "Woman"
   },
   {
     "id": "p5",
     "title": "Pink Saree Portrait",
     "prompt": "Create a retro, vintage-inspired image grainy yet bright - based on the reference picture. The girl should be draped in a perfect plain pink saree with small white flower prints, paired with a matching blouse with sleeves above the elbow, styled in a Pinterest-inspired aesthetic. The vibe must capture the essence of a 90s movie dark-brown-longhaired baddie, with silky hair and a small flower tucked visibly into her hair, enhanced by a windy, romantic atmosphere. Background in temple",
-    "image": "images/5.jpeg"
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/5.jpeg",
+    "category": "Woman"
   },
   {
     "id": "p6",
     "title": "Purple Saree Portrait",
     "prompt": "Create a retro, vintage-inspired image-grainy yet bright -based on the reference picture. The girl should be draped in a perfect purple chiffon, Pinterest-style aesthetic saree. The vibe must capture the essence of a 90s movie dark-brown-haired baddie, with silky hair and a small flower tucked visibly into her hair, enhanced by a windy, romantic atmosphere. She is standing against an old wooden door, where deep shadows and dramatic contrasts add mystery and artistry to the scene, creating a moody yet enchanting cinematic effect. Her pose should suggest that she is adjusting her hair",
-    "image": "images/6.jpeg"
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/6.jpeg",
+    "category": "Woman"
   },
   {
     "id": "p7",
     "title": "White-Orange Saree Portrait",
     "prompt": "Create a retro, vintage-inspired image grainy yet bright - based on the reference picture. The girl should be draped in a perfect white and orange combination, Pinterest-style aesthetic retro saree. The vibe must capture the essence of a 90s movie brown-longhaired baddie, with wavy curls and a small flower tucked visibly into her hair, enhanced by a windy, romantic atmosphere. She stands against a solid wall, where deep shadows and dramatic contrasts add mystery and artistry to the scene, creating a moody yet enchanting cinematic effect. With long size image",
-    "image": "images/7.jpeg"
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/7.jpeg",
+    "category": "Woman"
   },
   {
     "id": "p8",
     "title": "Red Saree Portrait",
     "prompt": "Create a retro, vintage-inspired image grainy yet bright - based on the reference picture. The girl should be draped in a perfect red, Pinterest-style aesthetic retro saree. The vibe must capture the essence of a 90s movie brown-haired baddie, with wavy curls and a small flower tucked visibly into her hair, enhanced by a windy, romantic atmosphere. She stands against a solid wall, where deep shadows and dramatic contrasts add mystery and artistry to the scene, creating a moody yet enchanting cinematic effect.",
-    "image": "images/8.jpeg"
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/8.jpeg",
+    "category": "Woman"
   }
 ]
-
