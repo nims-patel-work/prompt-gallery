@@ -3,16 +3,17 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Prompt Gallery — Gemini (updated)</title>
+<title>Prompt Gallery — Gemini</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#f7fbfd; --card:#fff; --muted:#6b7280; --accent:#06b6d4; --accent-dark:#089aa9;
-    --radius:12px; --gap:14px;
+    --radius:12px; --gap:14px; --pill-bg:#eef6f7;
   }
   *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:"Inter",system-ui,Arial;background:linear-gradient(180deg,#fbfdfe,#f0f6f9);-webkit-font-smoothing:antialiased;color:#071028}
+  body{margin:0;font-family:"Inter",system-ui,Arial;background:linear-gradient(180deg,#fbfdfe,#f0f6f9);color:#071028}
   .wrap{max-width:1200px;margin:18px auto;padding:14px}
+
   header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
   h1{margin:0;font-size:20px;font-weight:700}
   .controls{display:flex;gap:10px;align-items:center}
@@ -22,7 +23,8 @@
   .tabs{display:flex;gap:8px;margin:14px 0 8px;flex-wrap:wrap}
   .tab{padding:8px 12px;border-radius:999px;background:transparent;border:1px solid transparent;color:var(--muted);cursor:pointer;font-weight:600}
   .tab:hover{background:rgba(6,22,34,0.03)}
-  .tab.active{background:linear-gradient(180deg,var(--accent),var(--accent-dark));color:white;border-color:rgba(0,0,0,0.05);box-shadow:0 8px 20px rgba(6,22,34,0.06)}
+  .tab.active{background:linear-gradient(180deg,var(--accent),var(--accent-dark));color:white;box-shadow:0 8px 20px rgba(6,22,34,0.06)}
+  .tab .count{margin-left:8px;font-size:12px;font-weight:700;opacity:.9}
 
   /* grid */
   .grid{display:grid;gap:var(--gap);margin-top:14px;grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));}
@@ -32,30 +34,17 @@
   @media (max-width:599px){ .grid{ grid-template-columns: repeat(2, 1fr); gap:10px; } }
 
   .card{background:var(--card);border-radius:var(--radius);padding:10px;display:flex;flex-direction:column;gap:10px;box-shadow:0 12px 30px rgba(11,22,38,0.06);min-height:260px;overflow:hidden;position:relative}
-  .imgwrap{position:relative;width:100%;height:220px;border-radius:10px;overflow:hidden;background:linear-gradient(180deg,#eef6fb,#f7fbfd);border:1px solid rgba(6,22,34,0.03)}
-  .thumb{width:100%;height:100%;object-fit:cover;object-position:bottom right;display:block;transition:transform .28s ease}
-  .expandBtn{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.6);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1}
+  .imgwrap{position:relative;width:100%;height:220px;border-radius:10px;overflow:hidden;background:#f7fbfd;border:1px solid rgba(6,22,34,0.03)}
+  .thumb{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+  .expandBtn{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.6);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px}
   .title{font-weight:700;font-size:15px}
   .prompt{font-size:13px;color:var(--muted);line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
   .meta-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .cat-pill{font-size:12px;padding:6px 8px;border-radius:8px;background:#eef6f7;color:#044;display:inline-block}
-  .actions{display:flex;align-items:center;gap:10px;margin-top:auto}
-  .copyBtn{padding:10px 12px;border-radius:8px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-dark));color:#fff;font-weight:700;cursor:pointer}
-  .copyBtn.copied{background:linear-gradient(180deg,#10b981,#059669)}
+  .cat-pill{font-size:12px;padding:6px 8px;border-radius:8px;background:var(--pill-bg);color:#044}
 
-  /* modal (kept as fallback) */
-  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);z-index:9999;padding:12px;overflow:auto}
-  .modal.show{display:flex}
-  .modal-card{width:min(1100px,98%);max-height:calc(100vh - 32px);background:#fff;color:#111;border-radius:12px;padding:12px;display:flex;gap:12px;overflow:hidden}
-  .modal-left{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .modal-img{max-width:100%;max-height:calc(100vh - 220px);object-fit:contain;border-radius:8px}
-  .modal-right{width:360px;max-width:36%;display:flex;flex-direction:column;gap:10px;overflow:auto;padding-bottom:12px}
-  @media (max-width:920px){ .modal-card{flex-direction:column} .modal-img{max-height:50vh} .modal-right{max-height:calc(100vh - 52vh)} }
-  .modal-title{font-size:18px;font-weight:700}
-  .modal-prompt{font-size:14px;background:#f9fafb;padding:10px;border-radius:8px;white-space:pre-wrap;overflow:auto;max-height:240px}
-  .modal-actions{display:flex;gap:8px;margin-top:auto}
-  .btn-ghost{background:#f1f5f9;border:1px solid #d1d5db;padding:8px 12px;border-radius:8px;color:#111;cursor:pointer}
-  .btn-primary{background:linear-gradient(180deg,var(--accent),var(--accent-dark));border:none;padding:10px 14px;border-radius:8px;color:white;font-weight:700;cursor:pointer}
+  .actions{display:flex;gap:10px;margin-top:auto}
+  .copyBtn{padding:8px 12px;border-radius:8px;border:none;background:linear-gradient(180deg,var(--accent),var(--accent-dark));color:#fff;font-weight:700;cursor:pointer}
+  .copyBtn.copied{background:linear-gradient(180deg,#10b981,#059669)}
 
   footer{margin-top:16px;color:var(--muted);text-align:center;font-size:13px}
 </style>
@@ -63,208 +52,97 @@
 <body>
   <div class="wrap">
     <header>
-      <div>
-        <h1>Prompt Gallery — Gemini</h1>
-        <div style="color:var(--muted);font-size:13px;margin-top:6px">Filter by category, search (case-insensitive), click ⤢ to open full view in a new tab.</div>
-      </div>
+      <h1>Prompt Gallery — Gemini</h1>
       <div class="controls">
-        <input id="search" class="search" placeholder="Search prompts..." aria-label="Search prompts" />
+        <input id="search" class="search" placeholder="Search prompts..." />
       </div>
     </header>
 
-    <div id="tabs" class="tabs" role="tablist" aria-label="Categories"></div>
+    <div id="tabs" class="tabs"></div>
+    <div id="grid" class="grid"></div>
 
-    <div id="grid" class="grid" aria-live="polite"></div>
-
-    <footer>Update <code>prompts.json</code> with a <code>category</code> field to use tabs.</footer>
+    <footer>Update <code>prompts.json</code> with <code>category</code> for tabs.</footer>
   </div>
 
 <script>
-/* CONFIG */
 const PROMPTS_JSON_URL = 'prompts.json';
-const CATEGORIES = ['All','Woman','Man','Couple','Children','Other'];
-
-const tabsEl = document.getElementById('tabs');
 const grid = document.getElementById('grid');
+const tabsEl = document.getElementById('tabs');
 const search = document.getElementById('search');
 
 let DATA = [];
 let activeCategory = 'All';
+let categories = ['All'];
 
-/* HELPERS */
-function el(tag, cls){ const e=document.createElement(tag); if(cls) e.className=cls; return e; }
-function flashBtn(btn, text='Copied ✓'){ const prev = btn.textContent; btn.textContent = text; btn.classList.add('copied'); setTimeout(()=>{ btn.textContent = prev; btn.classList.remove('copied') },1200); }
-function normalize(str){ return (str||'').toLocaleLowerCase(); }
+function el(tag, cls){const e=document.createElement(tag);if(cls)e.className=cls;return e;}
+function flashBtn(btn){const prev=btn.textContent;btn.textContent='Copied ✓';btn.classList.add('copied');setTimeout(()=>{btn.textContent=prev;btn.classList.remove('copied')},1200);}
+function safeHtml(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function normalize(s){return (s||'').toLowerCase();}
 
-/* build tabs */
-function renderTabs(){
-  tabsEl.innerHTML = '';
-  CATEGORIES.forEach(cat=>{
-    const b = el('button','tab'); b.textContent = cat; b.setAttribute('role','tab');
-    if(cat === activeCategory) b.classList.add('active');
-    b.addEventListener('click', ()=>{ activeCategory = cat; updateTabsUI(); render(filtered()); });
-    tabsEl.appendChild(b);
+function buildCategories(){
+  const set=new Map();
+  DATA.forEach(it=>{const cat=it.category?String(it.category).trim():'Other';set.set(cat,(set.get(cat)||0)+1);});
+  categories=['All',...Array.from(set.keys()).sort()];
+  renderTabs(set);
+}
+
+function renderTabs(counts){
+  tabsEl.innerHTML='';
+  categories.forEach(cat=>{
+    const btn=el('button','tab');
+    btn.textContent=cat;
+    const span=el('span','count');span.textContent=' '+(cat==='All'?DATA.length:(counts.get(cat)||0));
+    btn.appendChild(span);
+    if(cat===activeCategory)btn.classList.add('active');
+    btn.onclick=()=>{activeCategory=cat;updateTabsUI();render(filtered());};
+    tabsEl.appendChild(btn);
   });
 }
-function updateTabsUI(){ [...tabsEl.children].forEach(b=> b.classList.toggle('active', b.textContent === activeCategory)); }
+function updateTabsUI(){[...tabsEl.children].forEach(b=>b.classList.toggle('active',b.textContent.startsWith(activeCategory)));}
 
-/* filter + sort (descending) */
 function filtered(){
-  const q = normalize(search.value || '');
-  let items = DATA.slice();
-
-  if(activeCategory && activeCategory !== 'All'){
-    items = items.filter(it => normalize(it.category || 'Other') === normalize(activeCategory));
-  }
-
-  if(q){
-    items = items.filter(it => {
-      const hay = (it.title + ' ' + it.prompt + ' ' + (it.tags||[]).join(' ')).toLocaleLowerCase();
-      return hay.includes(q);
-    });
-  }
-
-  // sort descending: by date if provided, else by numeric id if present, else unchanged
-  items.sort((a,b)=>{
-    if(a.date || b.date){
-      const da = a.date ? new Date(a.date).getTime() : -Infinity;
-      const db = b.date ? new Date(b.date).getTime() : -Infinity;
-      return db - da;
-    }
-    const num = s => { const m = (s||'').match(/\d+/); return m ? parseInt(m[0],10) : null; }
-    const na = num(a.id), nb = num(b.id);
-    if(na!=null || nb!=null) return (nb||0) - (na||0);
-    return 0;
-  });
-
+  let items=DATA.slice();
+  if(activeCategory!=='All'){items=items.filter(it=>normalize(it.category||'Other')===normalize(activeCategory));}
+  const q=normalize(search.value||'');
+  if(q){items=items.filter(it=>((it.title||'')+' '+(it.prompt||'')).toLowerCase().includes(q));}
+  items.sort((a,b)=>{const na=parseInt((a.id||'').match(/\\d+/)||0),nb=parseInt((b.id||'').match(/\\d+/)||0);return nb-na;});
   return items;
 }
 
-/* render grid */
 function render(items){
-  grid.innerHTML = '';
-  if(!items.length){ const m=el('div'); m.style.color='var(--muted)'; m.textContent='No prompts found.'; grid.appendChild(m); return; }
-
+  grid.innerHTML='';
+  if(!items.length){grid.textContent='No prompts found.';return;}
   items.forEach(it=>{
-    const card = el('div','card');
-
-    const iw = el('div','imgwrap');
-    const img = el('img','thumb'); img.src = it.image || ''; img.alt = it.title || 'image';
-    img.onerror = ()=>{ img.src = 'https://via.placeholder.com/1200x800?text=No+Image' };
-
-    // FULL-SCREEN ICON (opens new window/tab)
-    const expand = el('button','expandBtn'); expand.innerHTML = '⤢'; expand.title = 'Open full view in new tab';
-    expand.addEventListener('click', e => { e.stopPropagation(); openInNewWindow(it); });
-
-    iw.appendChild(img); iw.appendChild(expand);
-
-    const title = el('div','title'); title.textContent = it.title || 'Untitled';
-    const prompt = el('div','prompt'); prompt.textContent = it.prompt || '';
-
-    const meta = el('div','meta-row'); const pill = el('span','cat-pill'); pill.textContent = it.category || 'Other'; meta.appendChild(pill);
-
-    const actions = el('div','actions');
-    const copyBtn = el('button','copyBtn'); copyBtn.textContent='Copy';
-    copyBtn.addEventListener('click', async (e) => {
-      e.stopPropagation();
-      try{ await navigator.clipboard.writeText(it.prompt || ''); flashBtn(copyBtn); }catch(err){ console.error(err) }
-    });
-    actions.appendChild(copyBtn);
-
-    card.appendChild(iw); card.appendChild(title); card.appendChild(prompt); card.appendChild(meta); card.appendChild(actions);
+    const card=el('div','card');
+    const iw=el('div','imgwrap');
+    const img=el('img','thumb');img.src=it.image||'';img.alt=it.title||'image';img.onerror=()=>{img.src='https://via.placeholder.com/1200x800?text=No+Image'};
+    const expand=el('button','expandBtn');expand.textContent='⤢';expand.onclick=e=>{e.stopPropagation();openNew(it);};
+    iw.appendChild(img);iw.appendChild(expand);
+    const title=el('div','title');title.textContent=it.title||'Untitled';
+    const prompt=el('div','prompt');prompt.textContent=it.prompt||'';
+    const meta=el('div','meta-row');const pill=el('span','cat-pill');pill.textContent=it.category||'Other';meta.appendChild(pill);
+    const actions=el('div','actions');const copyBtn=el('button','copyBtn');copyBtn.textContent='Copy';copyBtn.onclick=async()=>{await navigator.clipboard.writeText(it.prompt||'');flashBtn(copyBtn);};actions.appendChild(copyBtn);
+    card.append(iw,title,prompt,meta,actions);
     grid.appendChild(card);
   });
 }
 
-/* open full content in new window/tab */
-function openInNewWindow(item){
-  const w = window.open('', '_blank');
-  if(!w) return alert('Popup blocked — allow popups for this site to open full view.');
-
-  // build minimal page with full image and full prompt and a Copy button
-  const safeTitle = (item.title||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const safePrompt = (item.prompt||'').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-  const imgUrl = item.image || '';
-
-  const html = `<!doctype html>
-  <html>
-  <head>
-    <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <title>Full view — ${safeTitle}</title>
-    <style>
-      body{margin:0;font-family:Inter,system-ui,Arial;background:#fff;color:#111;line-height:1.45}
-      .wrap{max-width:1100px;margin:12px auto;padding:14px}
-      .img{width:100%;height:auto;max-height:70vh;object-fit:contain;border-radius:8px;background:#f3f4f6}
-      h1{font-size:20px;margin:12px 0}
-      .prompt{background:#f9fafb;padding:12px;border-radius:8px;white-space:pre-wrap;overflow:auto}
-      .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-      .btn{padding:8px 12px;border-radius:8px;border:1px solid #d1d5db;background:#fff;cursor:pointer;font-weight:600}
-      .btn-primary{background:linear-gradient(180deg,#06b6d4,#089aa9);color:#fff;border:none}
-    </style>
-  </head>
-  <body>
-    <div class="wrap">
-      <img class="img" src="${imgUrl}" alt="${safeTitle}" onerror="this.src='https://via.placeholder.com/1200x800?text=No+Image'"/>
-      <h1>${safeTitle}</h1>
-      <div class="prompt" id="prompt">${safePrompt}</div>
-      <div class="actions">
-        <button class="btn btn-primary" id="copyBtn">Copy Prompt</button>
-        <button class="btn" id="closeBtn">Close</button>
-      </div>
-    </div>
-    <script>
-      document.getElementById('copyBtn').addEventListener('click', async ()=>{
-        try{ await navigator.clipboard.writeText(document.getElementById('prompt').innerText); const t = document.getElementById('copyBtn'); const prev = t.innerText; t.innerText='Copied ✓'; setTimeout(()=>t.innerText=prev,1200); }catch(e){ alert('Copy failed: ' + e) }
-      });
-      document.getElementById('closeBtn').addEventListener('click', ()=>{ window.close(); });
-    </script>
-  </body>
-  </html>`;
-
-  w.document.open();
-  w.document.write(html);
+function openNew(it){
+  const w=window.open('','_blank');if(!w)return alert('Popup blocked');
+  const safeTitle=safeHtml(it.title||'');const safePrompt=safeHtml(it.prompt||'').replace(/\\n/g,'<br>');const imgUrl=it.image||'';
+  w.document.write(`<!doctype html><html><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width,initial-scale=1'/><title>Full view — ${safeTitle}</title>
+  <style>body{margin:0;font-family:Inter,system-ui,Arial;background:#fff;color:#111;line-height:1.45}.wrap{max-width:1100px;margin:12px auto;padding:14px}.img{width:100%;max-height:70vh;object-fit:contain;border-radius:8px;background:#f3f4f6}h1{font-size:20px;margin:12px 0}.prompt{background:#f9fafb;padding:12px;border-radius:8px;white-space:pre-wrap}.actions{display:flex;gap:8px;margin-top:12px}.btn{padding:8px 12px;border-radius:8px;border:1px solid #d1d5db;background:#fff;cursor:pointer;font-weight:600}.btn-primary{background:linear-gradient(180deg,#06b6d4,#089aa9);color:#fff;border:none}.meta{margin-top:8px;color:#6b7280;font-size:13px}</style></head>
+  <body><div class='wrap'><img class='img' src='${imgUrl}' alt='${safeTitle}'/><h1>${safeTitle}</h1><div class='meta'>Category: ${safeHtml(it.category||'Other')}</div><div class='prompt' id='p'>${safePrompt}</div><div class='actions'><button class='btn btn-primary' id='c'>Copy Prompt</button><button class='btn' id='x'>Close</button></div></div>
+  <script>document.getElementById('c').onclick=async()=>{await navigator.clipboard.writeText(document.getElementById('p').innerText);const b=document.getElementById('c');const t=b.textContent;b.textContent='Copied ✓';setTimeout(()=>b.textContent=t,1200)};document.getElementById('x').onclick=()=>window.close();</script></body></html>`);
   w.document.close();
 }
 
-/* fallback modal (kept) */
-const modal = (() => document.getElementById('modal'))();
-if(modal){
-  const modalCopy = document.getElementById('modalCopy') || null;
-  const modalClose = document.getElementById('modalClose') || null;
-  // modal handlers exist in HTML when modal present; left as-is if used.
-}
-
-/* load JSON */
 async function loadData(){
-  try{
-    const res = await fetch(PROMPTS_JSON_URL, {cache:'no-store'});
-    if(!res.ok) throw new Error('no remote JSON');
-    const txt = await res.text();
-    const j = JSON.parse(txt);
-    if(!Array.isArray(j)) throw new Error('remote JSON not array');
-    DATA = j;
-  }catch(err){
-    console.warn('Using fallback sample data —', err.message);
-    DATA = [
-      {"id":"p1","title":"Sunlit Portrait","prompt":"4k HD realistic portrait...","image":"images/1.jpeg","category":"Man"},
-      {"id":"p2","title":"Red Saree","prompt":"4k HD portrait...","image":"images/2.jpeg","category":"Woman"},
-      {"id":"p3","title":"Lavender Saree","prompt":"Retro ...","image":"images/3.jpeg","category":"Woman"}
-    ];
-  }
-
-  renderTabs();
-  updateTabsUI();
-  render(filtered());
+  try{const res=await fetch(PROMPTS_JSON_URL,{cache:'no-store'});DATA=await res.json();}catch(e){DATA=[{"id":"p1","title":"Sample","prompt":"Test","image":"https://via.placeholder.com/400x300","category":"Other"}];}
+  buildCategories();updateTabsUI();render(filtered());
 }
 
-/* tabs helpers (defined after loadData available) */
-function renderTabs(){ tabsEl.innerHTML=''; CATEGORIES.forEach(cat=>{ const b=el('button','tab'); b.textContent=cat; b.setAttribute('role','tab'); if(cat===activeCategory) b.classList.add('active'); b.addEventListener('click', ()=>{ activeCategory=cat; updateTabsUI(); render(filtered()); }); tabsEl.appendChild(b); }); }
-function updateTabsUI(){ [...tabsEl.children].forEach(b=> b.classList.toggle('active', b.textContent===activeCategory)); }
-
-/* events */
-search.addEventListener('input', ()=> render(filtered()));
-
-/* init */
+search.oninput=()=>render(filtered());
 loadData();
 </script>
 </body>
