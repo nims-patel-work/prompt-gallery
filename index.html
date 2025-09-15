@@ -67,7 +67,7 @@
     <header>
       <div>
         <h1>Prompt Gallery — Gemini</h1>
-        <div style="color:var(--muted);font-size:13px;margin-top:6px">Filter by category, search, and click 🔍 for full view.</div>
+        <div style="color:var(--muted);font-size:13px;margin-top:6px">Filter by category, search, and click ⤢ for full view.</div>
       </div>
       <div class="controls">
         <input id="search" class="search" placeholder="Search prompts..." aria-label="Search prompts" />
@@ -138,18 +138,18 @@ function updateTabsUI(){
 
 /* Filtering + sorting */
 function filtered(){
-  const q = (search.value||'').trim().toLowerCase();
+  const q = (search.value||'').trim().toLocaleLowerCase();
   let items = DATA.slice();
 
   // category filter
   if(activeCategory && activeCategory !== 'All'){
-    items = items.filter(it => (it.category||'Other').toLowerCase() === activeCategory.toLowerCase());
+    items = items.filter(it => (it.category||'Other').toLocaleLowerCase() === activeCategory.toLocaleLowerCase());
   }
 
-  // search filter
+  // search filter (case-insensitive)
   if(q){
     items = items.filter(it=>{
-      const hay = ((it.title||'') + ' ' + (it.prompt||'') + ' ' + (it.tags||[]).join(' ')).toLowerCase();
+      const hay = ((it.title||'') + ' ' + (it.prompt||'') + ' ' + (it.tags||[]).join(' ')).toLocaleLowerCase();
       return hay.includes(q);
     });
   }
@@ -183,7 +183,7 @@ function render(items){
     const iw = el('div','imgwrap');
     const img = el('img','thumb'); img.src = it.image || ''; img.alt = it.title || 'image';
     img.onerror = ()=>{ img.src = 'https://via.placeholder.com/1200x800?text=No+Image' };
-    const expand = el('button','expandBtn'); expand.innerHTML = '🔍'; expand.title='View full image';
+    const expand = el('button','expandBtn'); expand.innerHTML = '⤢'; expand.title='View full image';
     expand.addEventListener('click', e=>{ e.stopPropagation(); openModal(it); });
 
     iw.appendChild(img); iw.appendChild(expand);
