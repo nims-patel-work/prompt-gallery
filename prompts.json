@@ -158,13 +158,62 @@
     "title": "1/6 Scale Figurine Portrait",
     "prompt": "Create a 1/6 scale commercialized figurine of the characters in the picture, in a realistic style, in a real environment. The figurine is placed on a computer desk. The figurine has a round transparent acrylic base, with no text on the base. The content on the computer screen is the ZBrush modeling process of this figurine. Next to the computer screen is a BANDAI-style toy packaging box printed with the original artwork. The packaging features two-dimensional flat illustrations.",
     "image": "https://nims-patel-work.github.io/prompt-gallery/images/23.jpeg",
-    "category": "Woman"
+    "category": "Other"
   },
   {
     "id": "p24",
     "title": "1/7 Scale Figurine with Real Person",
     "prompt": "Create a 1/7 scale commercialized figurine of the character in the picture, realistic style, in a real environment. Figurine placed on a computer desk with a round transparent acrylic base. Next to the desk is the real person in the picture, life-sized, in the same attire as the figurine, cleaning the figurine carefully with a fine brush. Scene set in a modern styled studio room, brightly lit, with a collection of toys and action figures in the background.",
     "image": "https://nims-patel-work.github.io/prompt-gallery/images/24.jpeg",
+    "category": "Other"
+  },
+  {
+    "id": "p25",
+    "title": "Park Bench Casual Portrait",
+    "prompt": "8K ultra-realistic photo of an Asian woman, keeping the face unchanged from the reference. She is sitting casually on a park bench surrounded by greenery. Outfit: olive green polo t-shirt, beige chinos, and white sneakers. Accessories: smartwatch and sunglasses. Relaxed outdoor mood, warm daylight with trees in the background.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/25.jpeg",
+    "category": "Woman"
+  },
+  {
+    "id": "p26",
+    "title": "1/7 Scale Figurine on Desk",
+    "prompt": "A 1/7 scale figurine of a character from an unspecified picture, rendered in realistic PVC material and placed on a computer desk. The figurine stands on a round transparent acrylic base without text. Environment: indoor studio; the computer screen displays the brush modeling process of the figurine. Packaging: a BANDAI-style toy packaging box with original artwork and two-dimensional flat illustrations should be placed next to the computer screen; an additional model packaging box with the character printed on it should be positioned behind the figurine.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/26.jpeg",
+    "category": "Other"
+  },
+  {
+    "id": "p27",
+    "title": "Overhead Lamborghini Hood Shot",
+    "prompt": "Overhead high-angle 3:4 full-body shot of a woman lying relaxed on the hood of an orange Lamborghini Urus in a dim basement garage. Outfit: crisp white open-collar shirt, brown trousers, polished shoes, leather strap watch. Visible tattoo on forearm. Soft sunbeam lighting with natural reflections on car, cinematic warm color grading, shallow depth of field creamy bokeh, hyper-realistic 8K detail, billionaire vibe.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/27.jpeg",
+    "category": "Woman"
+  },
+  {
+    "id": "p28",
+    "title": "Penthouse Lounge Portrait",
+    "prompt": "DSLR-style 4K ultra-realistic photo — a stylish woman (face and hair exactly as in uploaded image) is sitting casually on a sleek black leather lounge chair. She wears a crisp white professional suit, slim-fit navy chinos, and white sneakers. Accessories: silver wristwatch and aviator sunglasses. Posture: relaxed with a confident smile. Background: luxury penthouse living room with floor-to-ceiling windows, modern grey sofas, indoor plants, and warm natural daylight streaming in.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/28.jpeg",
+    "category": "Woman"
+  },
+  {
+    "id": "p29",
+    "title": "Starbucks Terrace Portrait",
+    "prompt": "Generate a hyper-realistic cinematic photo of the uploaded person (preserve the face 100% exactly as in the uploaded selfie). The subject is sitting at an outdoor Starbucks terrace table, holding a Starbucks cup with '[Blogger Vinital' handwritten on it in marker. Outfit: light beige short-sleeve linen shirt, slim black trousers, clean white sneakers; sunglasses resting on collar. Background: sunlit urban street with people walking and blurred traffic; green Starbucks branding visible in the scene.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/29.jpeg",
+    "category": "Woman"
+  },
+  {
+    "id": "p30",
+    "title": "European Street Portrait",
+    "prompt": "Ultra-realistic cinematic street portrait in a narrow European city street with tall stone buildings and blurred storefronts. Subject standing in the middle of the street, slightly angled, confident gaze. Outfit: black overcoat and black scarf for a minimal stylish vibe. Lighting: overcast daylight with smooth shadows and balanced contrast. Color grading: cinematic teal-orange with soft desaturated background and natural skin tones. Camera: DSLR 85mm lens, 1/1.8, medium waist-up shot, vertical 4:5. Style: cinematic editorial, modern and timeless magazine look.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/30.jpeg",
+    "category": "Woman"
+  },
+  {
+    "id": "p31",
+    "title": "Rooftop Balcony Portrait",
+    "prompt": "8K ultra-realistic portrait preserving the same face reference. Look: black turtleneck sweater, grey checked blazer, slim-fit dark jeans, sunglasses. Action: leaning on balcony railing with one arm while holding a book in the other hand. Setting: rooftop balcony at golden hour with a city skyline. Mood: intellectual, cinematic, reflective.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/31.jpeg",
     "category": "Woman"
   }
 ]
