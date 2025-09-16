@@ -216,15 +216,6 @@
     "image": "https://nims-patel-work.github.io/prompt-gallery/images/31.jpeg",
     "category": "Woman"
   },
-  
-
-  {
-    "id": "p31",
-    "title": "Rooftop Balcony Portrait",
-    "prompt": "8K ultra-realistic portrait preserving the same face reference. Look: black turtleneck sweater, grey checked blazer, slim-fit dark jeans, sunglasses. Action: leaning on a balcony railing with one arm and holding a book in the other. Setting: rooftop balcony at golden hour with a city skyline. Mood: intellectual, cinematic, reflective.",
-    "image": "https://nims-patel-work.github.io/prompt-gallery/images/31.jpeg",
-    "category": "Woman"
-  },
   {
     "id": "p32",
     "title": "Yellow Chiffon Retro Saree",
@@ -289,5 +280,6 @@
     "category": "Birthday"
   }
 ]
+
 
 
