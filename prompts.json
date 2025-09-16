@@ -54,5 +54,69 @@
     "prompt": "Create a retro, vintage-inspired image grainy yet bright - based on the reference picture. The girl should be draped in a perfect red, Pinterest-style aesthetic retro saree. The vibe must capture the essence of a 90s movie brown-haired baddie, with wavy curls and a small flower tucked visibly into her hair, enhanced by a windy, romantic atmosphere. She stands against a solid wall, where deep shadows and dramatic contrasts add mystery and artistry to the scene, creating a moody yet enchanting cinematic effect.",
     "image": "https://nims-patel-work.github.io/prompt-gallery/images/8.jpeg",
     "category": "Woman"
+  },
+  {
+    "id": "p9",
+    "title": "Moody Field Portrait",
+    "prompt": "Create a cinematic, moody photograph of a young woman (based on uploaded image) standing in a lush green field of tall grass under a cloudy, overcast sky. She is wearing a creamy sleeveless crop top and low waist light blue baggy jeans. Her posture is expressive and dramatic, leaning slightly backward with one arm outstretched and palm open, as if embracing the wind at the moment.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/9.jpeg",
+    "category": "Woman"
+  },
+  {
+    "id": "p10",
+    "title": "Red Satin Saree Portrait",
+    "prompt": "Create a soft, sunlit portrait of this face wearing a red satin silk saree. She is standing gracefully against a plain wall, bathed in warm natural light with red spot light artistic shadow. Her gentle expression, loose hair strands moving slightly, and the dreamy golden glow create a serene, poetic, and romantic vibe. She looks like a model standing in the middle.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/10.jpeg",
+    "category": "Woman"
+  },
+  {
+    "id": "p11",
+    "title": "Blue Saree Vintage Portrait",
+    "prompt": "Create a retro vintage grainy but bright image of the reference picture, draped in a perfect blue Pinterest-style aesthetic saree. It must feel like a 90’s movie red-haired baddie with a small flower tucked visibly in her curls, romanticising a windy environment. The girl is standing against a solid wall, with shadows and contrast drama, creating a mysterious and artistic atmosphere.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/11.jpeg",
+    "category": "Woman"
+  },
+  {
+    "id": "p12",
+    "title": "Dreamy Floral Book Portrait",
+    "prompt": "A dreamy and romantic portrait based on the reference picture: standing amidst blooming white flowers on a spring day. She is holding an open book close to her face, smiling peacefully, as if enjoying the fragrance of nature and the comfort of reading. She has medium-length hair styled naturally and wears a pastel-colored knee-length dress with flowers. The golden sunlight filtering through blossoms casts a warm glow.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/12.jpeg",
+    "category": "Woman"
+  },
+  {
+    "id": "p13",
+    "title": "Meadow Sitting Portrait",
+    "prompt": "Create a serene and dreamy outdoor portrait of a young woman sitting in tall grass at the edge of a meadow with misty green hills in the background. She is wearing a light-colored knee-length floral dress styled like a summer dress, giving a soft and romantic vibe. Leaning back with one arm behind her for support, head tilted slightly back in a relaxed pose, her expression is dreamy and romanticising the environment.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/13.jpeg",
+    "category": "Woman"
+  },
+  {
+    "id": "p14",
+    "title": "Blue Cotton Saree Reading",
+    "prompt": "Create a retro, vintage-inspired image — grainy yet bright — based on the reference picture. The girl should be draped in a blue cotton saree with small white floral prints, paired with a white blouse with sleeves above the elbow, styled Pinterest-inspired. She is sitting on a wooden bench as a few leaves blow in the air. Dramatic contrasts add mystery and artistry, creating a cinematic effect. Her pose should suggest she is reading a book.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/14.jpeg",
+    "category": "Woman"
+  },
+  {
+    "id": "p15",
+    "title": "Off White Saree with Polka Dots",
+    "prompt": "Create a retro, vintage-inspired image — grainy yet bright — based on the reference picture. The girl should be draped in a perfect off-white cotton saree with red polka dots, styled Pinterest-inspired. Capturing the essence of a 90s cinematic vibe: dark-brown-haired with a flower tucked into her hair, enhanced by a windy, romantic atmosphere. Standing against an old wooden door, the deep shadows and dramatic contrasts add mystery and artistry.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/15.jpeg",
+    "category": "Woman"
+  },
+  {
+    "id": "p16",
+    "title": "Blue Saree with Closed Eyes",
+    "prompt": "Create a retro vintage grainy but bright image of the reference picture, draped in a perfect blue Pinterest-style saree. It must feel like a 90’s movie red-haired baddie with a small flower tucked in her curls. Romanticising windy environment, eyes closed. The girl is standing against a solid wall with shadows and dramatic contrasts, creating a mysterious and artistic atmosphere.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/16.jpeg",
+    "category": "Woman"
+  },
+  {
+    "id": "p17",
+    "title": "Lavender Dream Portrait",
+    "prompt": "Create a soft, sunlit portrait based on the reference picture. Wearing a flowing sheer saree with delicate floral white embroidery, she sits gracefully against a plain wall bathed in warm natural light with artistic triangular sunlight shadows. She holds a pastel bouquet of lavenders close to her chest. Gentle expression, loose hair moving slightly, with a dreamy golden glow creating a serene, poetic, and romantic mood.",
+    "image": "https://nims-patel-work.github.io/prompt-gallery/images/17.jpeg",
+    "category": "Woman"
   }
 ]
+
